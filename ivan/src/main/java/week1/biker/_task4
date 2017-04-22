@@ -1,0 +1,6 @@
+Implement
+       	class Biker
+           methods
+           - buyMotorcycle
+           - sellMotorcycle
+           - fixMotorcycle

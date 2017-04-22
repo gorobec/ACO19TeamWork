@@ -1,0 +1,12 @@
+Implement
+       	class Parking
+           methods
+           - addMotoOnLastFreePlace
+           - takeLastMoto
+           - addMotoByPlaceNumber
+           - takeMotoByPlaceNumber
+           - clearGaragePlaces
+           - open
+           - close
+           - changeAddress
+           - showAllInGarage
