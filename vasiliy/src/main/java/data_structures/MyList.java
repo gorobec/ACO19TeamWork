@@ -1,7 +1,13 @@
 package data_structures;
 
-/**
- * Created by Tanya on 4/22/2017.
- */
-public interface MyList {
+public interface MyList extends MyCollection {
+    boolean add(int index, Object o);
+
+    Object get(int index);
+
+    Object remove(int index);
+
+    Object set(int index, Object o);
+
+    int indexOf(Object o);
 }

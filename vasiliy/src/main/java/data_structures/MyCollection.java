@@ -1,7 +1,16 @@
 package data_structures;
 
-/**
- * Created by Tanya on 4/22/2017.
- */
 public interface MyCollection {
+    boolean add(Object o);
+
+    boolean contains(Object o);
+
+    void clear();
+
+    boolean isEmpty();
+
+    boolean remove(Object o);
+
+    int size();
 }
+
