@@ -5,4 +5,5 @@ package data_structures;
  */
 public interface List {
     boolean add();
+    boolean add(Object o);
 }
