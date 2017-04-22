@@ -1,0 +1,21 @@
+	1. ContactList Application
+        - addContact                  +
+        - removeLast
+        - findContact
+        - removeContact
+
+        -*updateContactInfo
+
+        - showAllContacts             +
+
+        - showFirstFiveContacts       +
+        - showLastFiveContacts        +
+
+        - showLifeContacts
+        - showKievstarContacts
+
+        (name must be unique in contact list)
+        before adding do validation
+        user can put wrong info like that
+            7sdf463dfg276
+        before saving check all symbols
