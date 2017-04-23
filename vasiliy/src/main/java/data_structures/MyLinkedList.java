@@ -76,23 +76,19 @@ public class MyLinkedList implements MyList {
     }
 
     private Node findNode(int index) {
-        if (index == size - 1) {
-            return tail;
-        }
-        Node currentNode;
         if (index < size / 2) {
-            currentNode = head;
+            Node currentNode = head;
             for (int i = 0; i < index; i++) {
                 currentNode = currentNode.getNext();
             }
+            return currentNode;
         } else {
-            currentNode = tail;
+            Node currentNode = tail;
             for (int i = 0; i < size-1-index; i++) {
                 currentNode = currentNode.getPrevious();
             }
+            return currentNode;
         }
-
-        return currentNode;
     }
 
     @Override
