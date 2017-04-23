@@ -76,9 +76,6 @@ public class MyLinkedList implements MyList {
     }
 
     private Node findNode(int index) {
-        if (!checkIndex(index) || isEmpty()) {
-            return null;
-        }
         if (index == size - 1) {
             return tail;
         }
@@ -108,7 +105,7 @@ public class MyLinkedList implements MyList {
             node.setNext(null);
             return;
         }
-        if (node == head) {
+        if (node == tail) {
             node.getPrevious().setNext(null);
             tail = node.getPrevious();
             node.setPrevious(null);
