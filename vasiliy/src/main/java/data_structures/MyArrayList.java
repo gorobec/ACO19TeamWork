@@ -1,6 +1,8 @@
 package data_structures;
 
-public class MyArrayList {
+import java.util.Iterator;
+
+public class MyArrayList implements MyList {
 
     private static final int DEFAULT_CAPACITY = 10;
 
@@ -125,5 +127,24 @@ public class MyArrayList {
 
     public boolean contains(Object o) {
         return checkIndex(indexOf(o));
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new MyArrayListIterator();
+    }
+
+    private class MyArrayListIterator implements Iterator {
+
+        private int position;
+        @Override
+        public boolean hasNext() {
+            return position < size;
+        }
+
+        @Override
+        public Object next() {
+            return elementData[position++];
+        }
     }
 }
