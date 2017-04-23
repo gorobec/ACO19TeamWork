@@ -15,7 +15,6 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    @Override
     public String toString() {
         return "Name: " + name + '\n' +
                 "Surname: " + surname + '\n' +
