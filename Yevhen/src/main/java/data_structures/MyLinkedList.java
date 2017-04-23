@@ -132,6 +132,8 @@ public class MyLinkedList implements MyList{
     }
 
     private class MyLinkedListIterator implements Iterator {
+
+
         @Override
         public boolean hasNext() {
             return false;
