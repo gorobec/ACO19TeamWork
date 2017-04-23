@@ -103,12 +103,14 @@ public class MyLinkedList implements MyList {
             node.getNext().setPrevious(null);
             head = node.getNext();
             node.setNext(null);
+            size--;
             return;
         }
         if (node == tail) {
             node.getPrevious().setNext(null);
             tail = node.getPrevious();
             node.setPrevious(null);
+            size--;
             return;
         }
         node.getPrevious().setNext(node.getNext());

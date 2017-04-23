@@ -202,6 +202,20 @@ public abstract class MyListTest {
     }
 
     @Test
+    public void remove7() {
+        Object expectedObject = myList.get(myList.size()-1);
+        Object actualObject = myList.remove(myList.size()-1);
+        Assert.assertEquals(expectedObject, actualObject);
+
+        int expectedSize = 6;
+        int actualSize = myList.size();
+        Assert.assertEquals(expectedSize, actualSize);
+
+        Object actual = myList.get(5);
+        Assert.assertNull(actual);
+    }
+
+    @Test
     public void set1() {
         Object expected = 5;
         Object actual = myList.set(3, 100);
