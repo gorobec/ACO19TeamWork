@@ -3,7 +3,7 @@ package data_structures;
 /**
  * Created by gorobec on 22.04.17.
  */
-public interface MyCollection {
+public interface MyCollection extends Iterable{
 
     boolean add (Object o);
     boolean contains (Object o);

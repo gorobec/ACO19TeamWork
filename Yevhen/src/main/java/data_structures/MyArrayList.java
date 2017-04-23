@@ -1,5 +1,7 @@
 package data_structures;
 
+import java.util.Iterator;
+
 /**
  * @author  gorobec on 09.04.17.
  * @since JDK 1.8
@@ -91,4 +93,26 @@ public class MyArrayList implements MyList{
 
     }
 
+    @Override
+    public Iterator iterator() {
+        return new MyArrayListIterator();
+    }
+
+    private class MyArrayListIterator implements Iterator{
+
+        int position = 0;
+
+        @Override
+        public boolean hasNext() {
+            return position < size;
+        }
+
+        @Override
+        public Object next() {
+           /* Object value = elementData[position];
+            position++;
+            return value;*/
+            return elementData[position++];
+        }
+    }
 }
