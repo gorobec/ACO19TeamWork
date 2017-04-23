@@ -57,7 +57,6 @@ public class Reader extends User {
         return true;
     }
 
-    @Override
     public String toString() {
         return "id: " + id + '\n' + super.toString();
     }
