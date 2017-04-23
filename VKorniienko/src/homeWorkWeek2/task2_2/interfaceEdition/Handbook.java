@@ -12,22 +12,18 @@ public class Handbook extends Book implements Edition {
     private int publishYear = 1991;
     private String bookType = "Handbook";
 
-    @Override
     public String getEditionName() {
         return this.editionName;
     }
 
-    @Override
     public int publishYear() {
         return this.publishYear;
     }
 
-    @Override
     public String bookType() {
         return this.bookType;
     }
 
-    @Override
     public boolean buy() {
         if (countOfBooks == 0) {
             System.out.println("Book absent");
@@ -40,12 +36,11 @@ public class Handbook extends Book implements Edition {
         return true;
     }
 
-    @Override
     public String getBookName() {
         return this.bookName;
     }
 
-    @Override
+
     public String getBookAutor() {
         return this.autor;
     }
