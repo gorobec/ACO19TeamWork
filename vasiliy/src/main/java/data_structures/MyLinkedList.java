@@ -1,9 +1,15 @@
 package data_structures;
 
+import java.util.Iterator;
+
 public class MyLinkedList implements MyList {
     private Node head;
     private Node tail;
     private int size;
+
+    public MyLinkedList() {
+
+    }
 
     public MyLinkedList(Object[] array) {
         for (Object obj : array) {
@@ -209,6 +215,11 @@ public class MyLinkedList implements MyList {
         return -1;
     }
 
+    @Override
+    public Iterator iterator() {
+        return new MyLinkedListIterator();
+    }
+
     private static class Node {
         private Object value;
         private Node next;
@@ -222,6 +233,22 @@ public class MyLinkedList implements MyList {
 
         public Node(Object value) {
             this.value = value;
+        }
+    }
+
+    private class MyLinkedListIterator implements Iterator {
+        Node current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Object next() {
+            Object value = current.value;
+            current = current.next;
+            return value;
         }
     }
 }
