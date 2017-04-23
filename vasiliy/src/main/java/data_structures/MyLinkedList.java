@@ -34,7 +34,7 @@ public class MyLinkedList implements MyList {
             tail = head;
         } else {
             Node node = new Node(o, null, tail);
-            tail.setNext(node);
+            tail.next = node;
             tail = node;
         }
         size++;
@@ -63,11 +63,11 @@ public class MyLinkedList implements MyList {
         } else {
             node = findNode(index);
         }
-        node.setPrevious(objectNode);
-        objectNode.setNext(node);
+        node.previous = objectNode;
+        objectNode.next = node;
         if (index != 0) {
-            objectNode.setPrevious(node.getPrevious());
-            node.getPrevious().setNext(objectNode);
+            objectNode.previous = node.previous;
+            node.previous.next = objectNode;
         } else {
             head = objectNode;
         }
@@ -79,13 +79,13 @@ public class MyLinkedList implements MyList {
         if (index < size / 2) {
             Node currentNode = head;
             for (int i = 0; i < index; i++) {
-                currentNode = currentNode.getNext();
+                currentNode = currentNode.next;
             }
             return currentNode;
         } else {
             Node currentNode = tail;
-            for (int i = 0; i < size-1-index; i++) {
-                currentNode = currentNode.getPrevious();
+            for (int i = 0; i < size - 1 - index; i++) {
+                currentNode = currentNode.previous;
             }
             return currentNode;
         }
@@ -96,7 +96,7 @@ public class MyLinkedList implements MyList {
         if (!checkIndex(index)) {
             return null;
         }
-        return findNode(index).getValue();
+        return findNode(index).value;
     }
 
     private void removeNode(Node node) {
@@ -105,23 +105,23 @@ public class MyLinkedList implements MyList {
             return;
         }
         if (node == head) {
-            node.getNext().setPrevious(null);
-            head = node.getNext();
-            node.setNext(null);
+            node.next.previous = null;
+            head = node.next;
+            node.next = null;
             size--;
             return;
         }
         if (node == tail) {
-            node.getPrevious().setNext(null);
-            tail = node.getPrevious();
-            node.setPrevious(null);
+            node.previous.next = null;
+            tail = node.previous;
+            node.previous = null;
             size--;
             return;
         }
-        node.getPrevious().setNext(node.getNext());
-        node.getNext().setPrevious(node.getPrevious());
-        node.setNext(null);
-        node.setPrevious(null);
+        node.previous.next = node.next;
+        node.next.previous = node.previous;
+        node.next = null;
+        node.previous = null;
         size--;
     }
 
@@ -132,7 +132,7 @@ public class MyLinkedList implements MyList {
         }
         Node node = findNode(index);
         removeNode(node);
-        return node.getValue();
+        return node.value;
     }
 
     private Node findNode(Object o) {
@@ -142,18 +142,18 @@ public class MyLinkedList implements MyList {
         if (o == null) {
             Node node = head;
             do {
-                if (node.getValue() == null) {
+                if (node.value == null) {
                     return node;
                 }
-                node = node.getNext();
+                node = node.next;
             } while (node != null);
         } else {
             Node node = head;
             do {
-                if (o.equals(node.getValue())) {
+                if (o.equals(node.value)) {
                     return node;
                 }
-                node = node.getNext();
+                node = node.next;
             } while (node != null);
         }
         return null;
@@ -175,8 +175,8 @@ public class MyLinkedList implements MyList {
             return null;
         }
         Node node = findNode(index);
-        Object oldValue = node.getValue();
-        node.setValue(o);
+        Object oldValue = node.value;
+        node.value = o;
         return oldValue;
     }
 
@@ -189,23 +189,39 @@ public class MyLinkedList implements MyList {
             Node node = head;
             int index = 0;
             do {
-                if (node.getValue() == null) {
+                if (node.value == null) {
                     return index;
                 }
                 index++;
-                node = node.getNext();
+                node = node.next;
             } while (node != null);
         } else {
             Node node = head;
             int index = 0;
             do {
-                if (o.equals(node.getValue())) {
+                if (o.equals(node.value)) {
                     return index;
                 }
                 index++;
-                node = node.getNext();
+                node = node.next;
             } while (node != null);
         }
         return -1;
+    }
+
+    private static class Node {
+        private Object value;
+        private Node next;
+        private Node previous;
+
+        public Node(Object value, Node next, Node previous) {
+            this.value = value;
+            this.next = next;
+            this.previous = previous;
+        }
+
+        public Node(Object value) {
+            this.value = value;
+        }
     }
 }
