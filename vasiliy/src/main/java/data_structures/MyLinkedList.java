@@ -79,11 +79,20 @@ public class MyLinkedList implements MyList {
         if (index == size - 1) {
             return tail;
         }
-        Node node = head;
-        for (int i = 0; i < index; i++) {
-            node = node.getNext();
+        Node currentNode;
+        if (index < size / 2) {
+            currentNode = head;
+            for (int i = 0; i < index; i++) {
+                currentNode = currentNode.getNext();
+            }
+        } else {
+            currentNode = tail;
+            for (int i = 0; i < size-1-index; i++) {
+                currentNode = currentNode.getPrevious();
+            }
         }
-        return node;
+
+        return currentNode;
     }
 
     @Override
