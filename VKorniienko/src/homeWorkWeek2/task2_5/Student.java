@@ -37,21 +37,10 @@ public class Student implements Comparable<Student> {
 
         Student student = (Student) s;
 
-        if (student.studentID == this.studentID) return  false;
+        if (student.studentID != this.studentID) return  false;
 
-        if (student.studentID != this.studentID) return true;
-
-        if (student.studentName.equals(this.studentName) &&
-                student.studentSurname.equals(this.studentSurname)) return false;
-
-        if (student.studentName.equals(this.studentName) &&
-                !student.studentSurname.equals(this.studentSurname)) return true;
-
-        if (!student.studentName.equals(this.studentName) &&
-                student.studentSurname.equals(this.studentSurname)) return true;
-
-        if (!student.studentName.equals(this.studentName) &&
-                !student.studentSurname.equals(this.studentSurname)) return true;
+        if (!student.studentName.equals(this.studentName) ||
+                !student.studentSurname.equals(this.studentSurname)) return false;
 
         return true;
     }

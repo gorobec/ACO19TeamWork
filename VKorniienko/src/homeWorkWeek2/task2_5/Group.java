@@ -48,11 +48,7 @@ public class Group {
 
         Group group = (Group) g;
 
-        if (group.groupNumber.equals(this.groupNumber)) return false;
-
-        if (!group.groupNumber.equals(this.groupNumber)) return true;
-
-        return true;
+        return group.groupNumber.equals(this.groupNumber);
     }
 
     @Override
