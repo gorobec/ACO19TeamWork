@@ -27,13 +27,14 @@ public class ArrayList {
     }
 
     public boolean add(int index, Object o) {
+        if (!elementData[index].equals(null)) {
+            return false;
+        }
+
         if (size == elementData.length){
             ensureCapacity();
         }
-        if (elementData[index] != null) {
-            System.out.println("Index is busy");
-            return false;
-        }
+
         System.arraycopy(elementData, index, elementData, index + 1, size - index);
         elementData[index] = o;
         size++;
@@ -56,6 +57,14 @@ public class ArrayList {
     }
 
     public boolean remove(int index) {
+        if (!elementData[index].equals(null)) {
+            return false;
+        }
+
+        if (index > size) {
+            ensureCapacity();;
+        }
+
         int numMover = size - index - 1;
         System.arraycopy(elementData, index + 1, elementData, index, numMover);
         elementData[size - 1] = null;
@@ -78,21 +87,12 @@ public class ArrayList {
         return elementData[index];
     }
 
-    public boolean set(int index, Object o) {
-        if (elementData[index] != null) {
-            System.out.println("Index is busy");
-            return false;
-        }
-        if (elementData[index] == null) {
-            if (size >= index) {
-                elementData[index] = o;
-                return true;
-            }
-        }
-        return false;
-    }
+    public Object set(int index, Object o) {
+        if (!elementData[index].equals(null)) return null;
 
-    public boolean contains(Object o) {
-        return false;
+        Object previousElement = elementData[index];
+        elementData[index] = o;
+
+        return previousElement;
     }
 }
