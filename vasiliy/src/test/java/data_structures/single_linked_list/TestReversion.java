@@ -1,8 +1,5 @@
 package data_structures.single_linked_list;
 
-import data_structures.single_linked_list.A;
-import data_structures.single_linked_list.ListUtils;
-import data_structures.single_linked_list.Node;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,7 +33,7 @@ public class TestReversion {
     }
 
     @Test
-    public void testReversion(){
+    public void testReversion() {
 
         A<Object> expected = seventh;
         A<Object> actual = ListUtils.reversion(head);

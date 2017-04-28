@@ -20,15 +20,15 @@ public final class Node<T> implements A<T> {
         return next;
     }
 
-    public void showValue(){
+    public void showValue() {
         System.out.print(value);
     }
 
-    public void showList(){
+    public void showList() {
         Node<T> iterator = this;
-        while (iterator != null){
+        while (iterator != null) {
             System.out.print(iterator.value + " -> ");
-            iterator = (Node<T>)iterator.getNext();
+            iterator = (Node<T>) iterator.getNext();
         }
         System.out.print("Tail\n");
     }

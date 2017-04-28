@@ -27,7 +27,7 @@ public class ListUtils {
         A<T> previous = null;
         A<T> current = head;
         while (head.getNext() != null) {
-            head= head.getNext();
+            head = head.getNext();
             current.setNext(previous);
             previous = current;
             current = head;
