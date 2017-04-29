@@ -1,0 +1,42 @@
+1. public class Camera extends Product {
+
+           void subCompare(Camera p){
+           }
+    }
+
+2. public abstract class Product implements Comparable<Product> {
+        abstract void subCompare(T p){
+        }
+   }
+
+3. public abstract class Product<T> implements Comparable<Product> {
+           abstract void subCompare(T p){
+           }
+   }
+
+4. public class Camera extends Product<Camera> {
+
+              void subCompare(Camera p){
+              }
+   }
+5. Убираем warning:
+
+a)
+    public abstract class Product<T> implements Comparable<T> {
+        public int compareTo(T p){
+        }
+    }
+        T - любой тип
+b) Ограничиваем T:
+
+    public abstract class Product<T extends Product> implements Comparable<T> {
+            public int compareTo(T p){
+            }
+    }
+
+c) Убираем warning:
+
+     public abstract class Product<T extends Product<T>> implements Comparable<T> {
+                public int compareTo(T p){
+                }
+     }

@@ -5,10 +5,10 @@ import java.util.Iterator;
 /**
  * Created by gorobec on 22.04.17.
  */
-public class MyLinkedList implements MyList{
+public class MyLinkedList<T> implements MyList<T>{
 
-    private Node head;
-    private Node tail;
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
     public MyLinkedList() {
@@ -58,14 +58,14 @@ public class MyLinkedList implements MyList{
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         return null;
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
 
-        Node forRemove = findNode(index);
+        Node<T> forRemove = findNode(index);
 //        TODO with exception
         if(forRemove == null) return null;
 
@@ -111,27 +111,27 @@ public class MyLinkedList implements MyList{
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return new MyLinkedListIterator();
     }
 
-    public static class Node {
-        private Node next;
-        private Node previous;
-        private Object value;
+    public static class Node<T> {
+        private Node<T> next;
+        private Node<T> previous;
+        private T value;
 
-        public Node(Object value) {
+        public Node(T value) {
             this.value = value;
         }
 
-        public Node(Node next, Node previous, Object value) {
+        public Node(Node<T> next, Node<T> previous, T value) {
             this.next = next;
             this.previous = previous;
             this.value = value;
         }
     }
 
-    private class MyLinkedListIterator implements Iterator {
+    private class MyLinkedListIterator implements Iterator<T> {
 
 
         @Override
@@ -140,7 +140,7 @@ public class MyLinkedList implements MyList{
         }
 
         @Override
-        public Object next() {
+        public T next() {
             return null;
         }
     }

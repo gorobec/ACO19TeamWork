@@ -6,11 +6,11 @@ import java.util.Iterator;
  * @author  gorobec on 09.04.17.
  * @since JDK 1.8
  */
-public class MyArrayList implements MyList{
+public class MyArrayList<T> implements MyList<T>{
 
 
     private static final int DEFAULT_CAPACITY = 10;
-    private Object[] elementData;
+    private T[] elementData;
     private int size;
 
 
@@ -18,8 +18,9 @@ public class MyArrayList implements MyList{
         this(DEFAULT_CAPACITY);
     }
 
+    @SuppressWarnings(value = "unchecked")
     public MyArrayList(int capacity) {
-        elementData = new Object[capacity];
+        elementData = (T[])new Object[capacity];
     }
 
 
@@ -38,7 +39,7 @@ public class MyArrayList implements MyList{
      *
      *
      * */
-    public boolean add(Object o) {
+    public boolean add(T o) {
 
         if(size == elementData.length){
             ensureCapacity();
@@ -47,24 +48,24 @@ public class MyArrayList implements MyList{
         elementData[size++] = o;
         return true;
     }
-
+    @SuppressWarnings(value = "unchecked")
     private void ensureCapacity() {
-        Object[] newElementData = new Object[2 * size];
+        T[] newElementData = (T[])new Object[2 * size];
         System.arraycopy(elementData, 0, newElementData, 0, size);
         elementData = newElementData;
     }
 
     @Override
-    public boolean add(Object o, int index) {
+    public boolean add(T o, int index) {
         return false;
     }
 
-    public Object get(int index) {
+    public T get(int index) {
 
         return null;
     }
 
-    public Object remove(int index) {
+    public T remove(int index) {
 //        TODO check index
 //        remove
 //        shift
@@ -94,11 +95,11 @@ public class MyArrayList implements MyList{
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return new MyArrayListIterator();
     }
 
-    private class MyArrayListIterator implements Iterator{
+    private class MyArrayListIterator implements Iterator<T>{
 
         int position = 0;
 
@@ -108,7 +109,7 @@ public class MyArrayList implements MyList{
         }
 
         @Override
-        public Object next() {
+        public T next() {
            /* Object value = elementData[position];
             position++;
             return value;*/
