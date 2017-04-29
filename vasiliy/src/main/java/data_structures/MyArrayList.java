@@ -1,23 +1,32 @@
 package data_structures;
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 
-public class MyArrayList implements MyList {
+public class MyArrayList<T> implements MyList<T> {
 
     private static final int DEFAULT_CAPACITY = 10;
 
-    private Object[] elementData;
+    private T[] elementData;
     private int size;
 
+    /*public <T> T[] getArray(Class<T> clazz, int size) {
+        @SuppressWarnings("unchecked")
+        T[] arr = (T[]) Array.newInstance(clazz, size);
+
+        return arr;
+    }*/
+
+
     public MyArrayList(int capacity) {
-        elementData = new Object[capacity];
+        elementData = (T[]) new Object[capacity];
     }
 
     public MyArrayList() {
         this(DEFAULT_CAPACITY);
     }
 
-    public MyArrayList(Object[] array) {
+    public MyArrayList(T[] array) {
         elementData = array;
         size = elementData.length;
     }
@@ -30,7 +39,7 @@ public class MyArrayList implements MyList {
         return size == 0;
     }
 
-    public boolean add(Object o) {
+    public boolean add(T o) {
 
         if (size == elementData.length) {
             ensureCapacity();
@@ -41,12 +50,12 @@ public class MyArrayList implements MyList {
     }
 
     private void ensureCapacity() {
-        Object[] newElementData = new Object[2 * size];
+        T[] newElementData = (T[])new Object[2 * size];
         System.arraycopy(elementData, 0, newElementData, 0, size);
         elementData = newElementData;
     }
 
-    public boolean add(int index, Object o) {
+    public boolean add(int index, T o) {
         if (size == elementData.length) {
             ensureCapacity();
         }
@@ -63,7 +72,7 @@ public class MyArrayList implements MyList {
         return index >= 0 && index < size;
     }
 
-    public Object get(int index) {
+    public T get(int index) {
         if (!checkIndex(index)) {
             return null;
         }
@@ -71,19 +80,19 @@ public class MyArrayList implements MyList {
         return elementData[index];
     }
 
-    public Object remove(int index) {
+    public T remove(int index) {
         if (!checkIndex(index)) {
             return null;
         }
 
-        Object o = elementData[index];
+        T o = elementData[index];
         System.arraycopy(elementData, index + 1, elementData, index, size - index - 1);
         elementData[size - 1] = null;
         size--;
         return o;
     }
 
-    public int indexOf(Object o) {
+    public int indexOf(T o) {
         if (o == null) {
             for (int i = 0; i < size; i++) {
                 if (elementData[i] == null) {
@@ -100,7 +109,7 @@ public class MyArrayList implements MyList {
         return -1;
     }
 
-    public boolean remove(Object o) {
+    public boolean remove(T o) {
         int index = indexOf(o);
         if (!checkIndex(index)) {
             return false;
@@ -109,11 +118,11 @@ public class MyArrayList implements MyList {
         return true;
     }
 
-    public Object set(int index, Object o) {
+    public T set(int index, T o) {
         if (!checkIndex(index)) {
             return null;
         }
-        Object oldObj = elementData[index];
+        T oldObj = elementData[index];
         elementData[index] = o;
         return oldObj;
     }
@@ -125,7 +134,7 @@ public class MyArrayList implements MyList {
         size = 0;
     }
 
-    public boolean contains(Object o) {
+    public boolean contains(T o) {
         return checkIndex(indexOf(o));
     }
 
@@ -143,7 +152,7 @@ public class MyArrayList implements MyList {
         }
 
         @Override
-        public Object next() {
+        public T next() {
             return elementData[position++];
         }
     }

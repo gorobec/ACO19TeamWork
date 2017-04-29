@@ -2,17 +2,17 @@ package data_structures;
 
 import java.util.Iterator;
 
-public class MyLinkedList implements MyList {
-    private Node head;
-    private Node tail;
+public class MyLinkedList<T> implements MyList<T> {
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
     public MyLinkedList() {
 
     }
 
-    public MyLinkedList(Object[] array) {
-        for (Object obj : array) {
+    public MyLinkedList(T[] array) {
+        for (T obj : array) {
             this.add(obj);
         }
     }
@@ -34,12 +34,12 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean add(Object o) {
+    public boolean add(T o) {
         if (isEmpty()) {
-            head = new Node(o);
+            head = new Node<>(o);
             tail = head;
         } else {
-            Node node = new Node(o, null, tail);
+            Node<T> node = new Node<>(o, null, tail);
             tail.next = node;
             tail = node;
         }
@@ -53,17 +53,17 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(T o) {
         return checkIndex(indexOf(o));
     }
 
     @Override
-    public boolean add(int index, Object o) {
+    public boolean add(int index, T o) {
         if (!checkIndex(index)) {
             return false;
         }
-        Node objectNode = new Node(o);
-        Node node;
+        Node<T> objectNode = new Node<>(o);
+        Node<T> node;
         if (index == size - 1) {
             node = tail;
         } else {
@@ -81,15 +81,15 @@ public class MyLinkedList implements MyList {
         return true;
     }
 
-    private Node findNode(int index) {
+    private Node<T> findNode(int index) {
         if (index < size / 2) {
-            Node currentNode = head;
+            Node<T> currentNode = head;
             for (int i = 0; i < index; i++) {
                 currentNode = currentNode.next;
             }
             return currentNode;
         } else {
-            Node currentNode = tail;
+            Node<T> currentNode = tail;
             for (int i = 0; i < size - 1 - index; i++) {
                 currentNode = currentNode.previous;
             }
@@ -98,14 +98,14 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (!checkIndex(index)) {
             return null;
         }
         return findNode(index).value;
     }
 
-    private void removeNode(Node node) {
+    private void removeNode(Node<T> node) {
         if (size == 1) {
             clear();
             return;
@@ -132,21 +132,21 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         if (!checkIndex(index)) {
             return null;
         }
-        Node node = findNode(index);
+        Node<T> node = findNode(index);
         removeNode(node);
         return node.value;
     }
 
-    private Node findNode(Object o) {
+    private Node<T> findNode(T o) {
         if (isEmpty()) {
             return null;
         }
         if (o == null) {
-            Node node = head;
+            Node<T> node = head;
             do {
                 if (node.value == null) {
                     return node;
@@ -154,7 +154,7 @@ public class MyLinkedList implements MyList {
                 node = node.next;
             } while (node != null);
         } else {
-            Node node = head;
+            Node<T> node = head;
             do {
                 if (o.equals(node.value)) {
                     return node;
@@ -166,8 +166,8 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean remove(Object o) {
-        Node node = findNode(o);
+    public boolean remove(T o) {
+        Node<T> node = findNode(o);
         if (node == null) {
             return false;
         }
@@ -176,23 +176,23 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public Object set(int index, Object o) {
+    public T set(int index, T o) {
         if (!checkIndex(index)) {
             return null;
         }
-        Node node = findNode(index);
-        Object oldValue = node.value;
+        Node<T> node = findNode(index);
+        T oldValue = node.value;
         node.value = o;
         return oldValue;
     }
 
     @Override
-    public int indexOf(Object o) {
+    public int indexOf(T o) {
         if (isEmpty()) {
             return -1;
         }
         if (o == null) {
-            Node node = head;
+            Node<T> node = head;
             int index = 0;
             do {
                 if (node.value == null) {
@@ -202,7 +202,7 @@ public class MyLinkedList implements MyList {
                 node = node.next;
             } while (node != null);
         } else {
-            Node node = head;
+            Node<T> node = head;
             int index = 0;
             do {
                 if (o.equals(node.value)) {
@@ -216,28 +216,28 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return new MyLinkedListIterator();
     }
 
-    private static class Node {
-        private Object value;
-        private Node next;
-        private Node previous;
+    private static class Node<T> {
+        private T value;
+        private Node<T> next;
+        private Node<T> previous;
 
-        public Node(Object value, Node next, Node previous) {
+        public Node(T value, Node<T> next, Node<T> previous) {
             this.value = value;
             this.next = next;
             this.previous = previous;
         }
 
-        public Node(Object value) {
+        public Node(T value) {
             this.value = value;
         }
     }
 
-    private class MyLinkedListIterator implements Iterator {
-        Node current = head;
+    private class MyLinkedListIterator implements Iterator<T> {
+        Node<T> current = head;
 
         @Override
         public boolean hasNext() {
@@ -245,8 +245,8 @@ public class MyLinkedList implements MyList {
         }
 
         @Override
-        public Object next() {
-            Object value = current.value;
+        public T next() {
+            T value = current.value;
             current = current.next;
             return value;
         }

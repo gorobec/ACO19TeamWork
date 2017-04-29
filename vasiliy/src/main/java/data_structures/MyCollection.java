@@ -1,7 +1,7 @@
 package data_structures;
 
-public interface MyCollection extends Iterable {
-    boolean add(Object o);
+public interface MyCollection<T> extends Iterable<T> {
+    boolean add(T o);
 
     boolean contains(Object o);
 
@@ -9,7 +9,7 @@ public interface MyCollection extends Iterable {
 
     boolean isEmpty();
 
-    boolean remove(Object o);
+    boolean remove(T o);
 
     int size();
 }
