@@ -92,7 +92,7 @@ public class MyArrayList<T> implements MyList<T> {
         return o;
     }
 
-    public int indexOf(T o) {
+    public int indexOf(Object o) {
         if (o == null) {
             for (int i = 0; i < size; i++) {
                 if (elementData[i] == null) {
@@ -134,7 +134,7 @@ public class MyArrayList<T> implements MyList<T> {
         size = 0;
     }
 
-    public boolean contains(T o) {
+    public boolean contains(Object o) {
         return checkIndex(indexOf(o));
     }
 

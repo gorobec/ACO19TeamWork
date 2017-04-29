@@ -53,7 +53,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public boolean contains(T o) {
+    public boolean contains(Object o) {
         return checkIndex(indexOf(o));
     }
 
@@ -187,7 +187,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public int indexOf(T o) {
+    public int indexOf(Object o) {
         if (isEmpty()) {
             return -1;
         }
