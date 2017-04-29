@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
  * Created by gorobec on 22.04.17.
  */
 public abstract class MyListBaseTest {
-    protected MyList myList;
+    protected MyList<Integer> myList;
 
     @Before
     public abstract void setUp();
@@ -54,7 +54,7 @@ public abstract class MyListBaseTest {
     @Test
     public void size2() {
         myList.add(null);
-        myList.add("String");
+        myList.add(2);
 
         int expected = 9;
         int actual = myList.size();

@@ -1,0 +1,7 @@
+1. public static boolean find(List<Product> products, Product product);
+2. public static boolean find(List<? extends Product> products, Product product):
+    Utils.find(cameras, phone); - allowed
+    Utils.find(phones, phone);
+3. public static <T extends Product> boolean find(List<T> products, T product):
+    Utils.find(cameras, phone); - NOT allowed
+    Utils.find(phones, phone);

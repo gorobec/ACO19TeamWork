@@ -11,7 +11,7 @@ public class MyArrayListTest extends MyListBaseTest{
 
 
     public void setUp() {
-        myList = new MyArrayList();
+        myList = new MyArrayList<>();
     }
 
 }
