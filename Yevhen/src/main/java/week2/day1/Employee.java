@@ -3,7 +3,7 @@ package week2.day1;
 /**
  * Created by gorobec on 08.04.17.
  */
-public abstract class Employee implements Comparable{
+public abstract class Employee implements Comparable<Employee>{
     private String name;
     private String surname;
     private int age;
@@ -45,9 +45,9 @@ public abstract class Employee implements Comparable{
     }
 
     @Override
-    public int compareTo(Object obj) {
+    public int compareTo(Employee employee) {
 
-        Employee employee = (Employee) obj;
+//        Employee employee = (Employee) obj;
         int nameCompare = name.compareTo(employee.name);
         if(nameCompare != 0) return nameCompare;
         int surnameCompare = surname.compareTo(employee.surname);

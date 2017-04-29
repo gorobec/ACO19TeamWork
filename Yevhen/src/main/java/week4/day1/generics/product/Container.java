@@ -8,7 +8,7 @@ import java.util.List;
  * @author Yevhen Vorobiei
  * @since JDK 1.8
  */
-public class Container<T> {
+public class Container<T extends Product & Comparable<Product>> {
     private final List<T> items;
 
     public Container() {
