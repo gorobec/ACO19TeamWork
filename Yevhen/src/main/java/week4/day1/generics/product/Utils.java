@@ -8,7 +8,13 @@ import java.util.List;
  */
 public class Utils {
 
-    public static boolean find(List<Product> products, Product product){
+    public static <T extends Product> boolean find(List<T> products, T product){
         return products.contains(product);
+    }
+
+    public static<T> void copy(List<? extends T> src, List<? super T> dest){
+        for (T product : src) {
+            dest.add(product);
+        }
     }
 }

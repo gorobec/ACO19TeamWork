@@ -25,4 +25,9 @@ public class Phone extends Product {
         sb.append('}');
         return sb.toString();
     }
+
+    @Override
+    public int compareTo(Product o) {
+        return 0;
+    }
 }

@@ -29,7 +29,12 @@ public class TestCompany {
 //        Comparator comparator = new AgeComparator();
 //        Comparator comparator = new NameComparator();
 
-        manager.showEmployeeByParameters(new AgeComparator());
+//        manager.showEmployeeByParameters(new AgeComparator());
+        manager.showEmployeeByParameters((o1, o2) -> {
+            Employee employee1 = (Employee) o1;
+            Employee employee2 = (Employee) o2;
+            return Integer.compare(employee1.getAge(), employee2.getAge());
+        } );
         System.out.println(manager.toString());
 
 

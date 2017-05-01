@@ -1,8 +1,5 @@
 package week4.day1.generics.product;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Yevhen Vorobiei
  * @since JDK 1.8
@@ -21,8 +18,8 @@ public class Run {
         container.add(camera);
         container.add(phone);
 
-        Container<String> container2 = new Container<>();
-        container2.add("String");
+        /*Container<String> container2 = new Container<>();
+        container2.add("String");*/
 
     }
 

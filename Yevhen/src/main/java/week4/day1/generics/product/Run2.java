@@ -16,7 +16,8 @@ public class Run2 {
         List<Camera> cameras = new ArrayList<>();
         List<Phone> phones = new ArrayList<>();
 
-       /* Utils.find(cameras, camera);
-        Utils.find(phones, phone);*/
+        Utils.find(cameras, camera);
+//        Utils.find(cameras, phone);
+        Utils.find(phones, phone);
     }
 }
