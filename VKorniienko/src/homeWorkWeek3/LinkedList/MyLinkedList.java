@@ -3,32 +3,34 @@ package homeWorkWeek3.LinkedList;
 /**
  * Created by volodymyrkorniienko on 01.05.17.
  */
-public class MyLinkedList implements MyList {
+public class MyLinkedList<T> implements MyList<T> {
 
-    private Node head;
-    private Node tail;
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
-    Node node = new Node();
 
     @Override
-    public boolean add(Object o) {
+    public boolean add(T o) {
         if (head == null) {
-            head = tail = new Node(o);
+            head = tail = new Node<>(o);
             size++;
             return true;
         }
-        Node newNode = new Node(tail, o);
+        Node<T> newNode = new Node<>(tail, o);
         tail.setNext(newNode);
         tail = newNode;
-
+        size++;
         return true;
     }
 
     @Override
-    public boolean add(int index, Object o) {
-        Node newNode = new Node(o);
+    public boolean add(int index, T o) {
+        Node<T> newNode = new Node<>(o);
         Node temp = head;
 
+        if (index < 0 || index > size) {
+            return false;
+        }
         if (temp != null) {
             for (int i = 0; i < index; i++) {
                 temp = temp.getNext();
@@ -40,13 +42,13 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (index > size || index < 0) {
             System.err.print("IndexOutOfBound!");
             return null;
         }
 
-        Node temp = head;
+        Node<T> temp = head;
         for (int i = 0; i < index; i++) {
             temp = temp.getNext();
         }
@@ -59,7 +61,7 @@ public class MyLinkedList implements MyList {
             System.err.println("IndexOutOfBound!");
         }
 
-        Node temp = head;
+        Node<T> temp = head;
         for (int i = 0; i < index; i++) {
             if (temp.getNext() == null) {
                 return false;
@@ -68,20 +70,24 @@ public class MyLinkedList implements MyList {
         }
         temp.setNext(temp.getNext().getNext());
         size--;
-
         return false;
     }
 
     @Override
-    public boolean remove(Object o) {
-        Node previous = null;
-        Node current = head;
+    public boolean remove(T o) {
+        Node<T> previous = null;
+        Node<T> current = head;
+
+        if (o == null) {
+            return false;
+        }
 
         while (current != null) {
             if (current.getValue().equals(o)) {
                 current = current.getNext();
                 if (previous == null) {
                     previous = current;
+                    size--;
                     return true;
                 } else {
                     previous = current;
@@ -93,8 +99,11 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public void set(int index, Object o) {
-        Node current = goTo(index);
+    public void set(int index, T o) {
+        if (o == null) {
+            return;
+        }
+        Node<T> current = goTo(index);
         current.setValue(o);
     }
 
@@ -104,8 +113,8 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean contains(Object o) {
-        Node current = head;
+    public boolean contains(T o) {
+        Node<T> current = head;
         for (int i = 0; i < size; i++) {
             if (current.getValue().equals(o)) {
                 return true;
@@ -119,13 +128,55 @@ public class MyLinkedList implements MyList {
         return size;
     }
 
-    @Override
-    public Node goTo(int index) {
-        Node current = head;
+    private Node goTo(int index) {
+        Node<T> current = head;
         for (int i = 0; i < index; i++) {
             current = current.getNext();
         }
         return current;
+    }
+
+    class Node<T> {
+
+        private Node<T> next;
+        private Node<T> previous;
+        private T value;
+
+        public Node() {
+        }
+
+        Node(T value) {
+            this.value = value;
+        }
+
+        Node(Node<T> previous, T value) {
+            this.previous = previous;
+            this.value = value;
+        }
+
+        Node getNext() {
+            return next;
+        }
+
+        void setNext(Node<T> next) {
+            this.next = next;
+        }
+
+        public Node getPrevious() {
+            return previous;
+        }
+
+        public void setPrevious(Node<T> previous) {
+            this.previous = previous;
+        }
+
+        T getValue() {
+            return value;
+        }
+
+        void setValue(T value) {
+            this.value = value;
+        }
     }
 }
 

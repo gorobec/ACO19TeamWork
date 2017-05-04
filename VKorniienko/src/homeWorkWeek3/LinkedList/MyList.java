@@ -3,16 +3,15 @@ package homeWorkWeek3.LinkedList;
 /**
  * Created by volodymyrkorniienko on 01.05.17.
  */
-public interface MyList {
+public interface MyList<T> {
 
-    boolean add(Object o);
-    boolean add(int index, Object o);
-    Object get(int index);
+    boolean add(T o);
+    boolean add(int index, T o);
+    T get(int index);
     boolean remove(int index);
-    boolean remove(Object o);
-    void set(int index, Object o);
+    boolean remove(T o);
+    void set(int index, T o);
     void clear();
-    boolean contains(Object o);
+    boolean contains(T o);
     int size();
-    Node goTo(int index);
 }
