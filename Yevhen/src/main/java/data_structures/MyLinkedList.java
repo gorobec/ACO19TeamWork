@@ -1,5 +1,7 @@
 package data_structures;
 
+import exceptions.MyIndexOutOfBoundException;
+
 import java.util.Iterator;
 
 /**
@@ -66,10 +68,6 @@ public class MyLinkedList<T> implements MyList<T>{
     public T remove(int index) {
 
         Node<T> forRemove = findNode(index);
-//        TODO with exception
-        if(forRemove == null) return null;
-
-
         if(forRemove == head){
             head = forRemove.next;
         } else {
@@ -86,23 +84,21 @@ public class MyLinkedList<T> implements MyList<T>{
         return forRemove.value;
     }
 
-    private Node findNode(int index) {
-        if(checkIndex(index)){
+    private Node<T> findNode(int index) {
+        checkIndex(index);
 //            find Node
 
-            Node iterator = head;
+            Node<T> iterator = head;
 
             for (int i = 0; i < index; i++) {
                 iterator = iterator.next;
             }
             return iterator;
-        }
-//        System.exit(-1);
-        return null;
     }
 
-    private boolean checkIndex(int index) {
-        return index >= 0 && index < size;
+    private void checkIndex(int index) {
+//        if(index < 0 || index >= size) throw new MyIndexOutOfBoundException(String.format("Index: %d", index));
+        if(index < 0 || index >= size) throw new IndexOutOfBoundsException(String.format("Index: %d", index));
     }
 
     @Override

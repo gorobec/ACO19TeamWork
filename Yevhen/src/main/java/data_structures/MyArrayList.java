@@ -1,5 +1,8 @@
 package data_structures;
 
+import exceptions.MyArrayindexOutOfBoundException;
+import exceptions.MyIndexOutOfBoundException;
+
 import java.util.Iterator;
 
 /**
@@ -66,10 +69,23 @@ public class MyArrayList<T> implements MyList<T>{
     }
 
     public T remove(int index) {
-//        TODO check index
+        try {
+            checkIndex(index);
+        } catch (MyArrayindexOutOfBoundException | MyIndexOutOfBoundException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        T value = elementData[index];
+        System.arraycopy(elementData, index + 1, elementData, index, elementData.length - index - 1);
+        size--;
 //        remove
 //        shift
-        return null;
+        return value;
+    }
+
+    private void checkIndex(int index) throws MyArrayindexOutOfBoundException {
+        if(index < 0 || index  >= size) throw new MyArrayindexOutOfBoundException(String.format("Index; %d", index));
     }
 
     @Override
