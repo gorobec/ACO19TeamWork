@@ -58,7 +58,7 @@ public class Man extends Person{
     }
 
     @Override
-    protected Man clone() throws CloneNotSupportedException {
+    public Man clone() throws CloneNotSupportedException {
         Man clone = (Man) super.clone();
         clone.setWife(this.wife.clone());
         return clone;

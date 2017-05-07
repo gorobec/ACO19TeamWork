@@ -1,10 +1,12 @@
 package week5.day1.clone;
 
+import java.io.Serializable;
+
 /**
  * @author Yevhen Vorobiei
  * @since JDK 1.8
  */
-public abstract class Person implements Cloneable {
+public abstract class Person implements Cloneable, Serializable {
     protected String name;
     protected int age;
 
