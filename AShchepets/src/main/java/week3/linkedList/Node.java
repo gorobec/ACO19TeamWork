@@ -6,14 +6,14 @@ package week3.linkedList;
 public class Node {
 
     private Object data;
-    private Object next;
-    private Object prev;
+    private Node next;
+    private Node prev;
 
     public Node(Object data) {
         this.data = data;
     }
 
-    public Node(Object data, Object next, Object prev) {
+    public Node(Object data, Node next, Node prev) {
         this.data = data;
         this.next = next;
         this.prev = prev;
@@ -27,19 +27,19 @@ public class Node {
         this.data = data;
     }
 
-    public Object getNext() {
+    public Node getNext() {
         return next;
     }
 
-    public void setNext(Object next) {
+    public void setNext(Node next) {
         this.next = next;
     }
 
-    public Object getPrev() {
+    public Node getPrev() {
         return prev;
     }
 
-    public void setPrev(Object prev) {
+    public void setPrev(Node prev) {
         this.prev = prev;
     }
 }
