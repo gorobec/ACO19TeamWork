@@ -1,4 +1,4 @@
-package week3.Iterator;
+package week3.iterator;
 
 /**
  * Created by SmooZzzie on 08.05.2017.
