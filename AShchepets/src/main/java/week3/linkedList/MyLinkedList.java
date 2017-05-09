@@ -12,11 +12,20 @@ public class MyLinkedList implements MyList {
     public MyLinkedList() {
     }
 
+    public MyLinkedList(Object[] array) {
+        for (int i = 0; i < array.length; i++) {
+            this.add(array[i]);
+        }
+    }
+
     private boolean addNodeToEmptyList(Object o) {
-        Node newNode = new Node(o);
 
         if (isEmpty()) {
+            Node newNode = new Node(o);
+
             head = tail = newNode;
+            size++;
+
             return true;
         } else return false;
     }
@@ -111,7 +120,7 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public Node get(int index) {
+    public Object get(int index) {
         if (!checkIndex(index)) return null;
 
         Node currNode = head;
@@ -119,13 +128,13 @@ public class MyLinkedList implements MyList {
             currNode = currNode.getNext();
         }
 
-        return currNode;
+        return currNode.getData();
     }
 
     @Override
     public boolean remove(int index) {
 
-        if (isEmpty() || checkIndex(index)) return false;
+        if (isEmpty() || !checkIndex(index)) return false;
 
         if (index == 0) return removeFirst();
         if (index == size - 1) return removeLast();
@@ -155,12 +164,19 @@ public class MyLinkedList implements MyList {
 
         Node currNode = head;
 
-        for (int i = 0; i < size; i++) {
-            currNode = currNode.getNext();
+        if (o == null) {
+            for (int i = 0; i < size; i++) {
 
-            if ((o == null && currNode.getData() == null)
-                    || o.equals(currNode.getData())) return remove(i);
+                if (o == null && currNode.getData() == null) return remove(i);
+                currNode = currNode.getNext();
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (o.equals(currNode.getData())) return remove(i);
+                currNode = currNode.getNext();
+            }
         }
+
 
         return true;
     }
@@ -208,8 +224,9 @@ public class MyLinkedList implements MyList {
             currNode = currNode.getNext();
         }
 
+        Object oldObject = currNode.getData();
         currNode.setData(o);
-        return true;
+        return oldObject;
     }
 
     @Override
@@ -222,6 +239,8 @@ public class MyLinkedList implements MyList {
             head = null;
             head = tmp;
         }
+
+        size = 0;
     }
 
     @Override
@@ -233,11 +252,18 @@ public class MyLinkedList implements MyList {
     public boolean contains(Object o) {
 
         Node currNode = head;
+        boolean isContains;
 
-        for (int i = 0; i < size; i++) {
-
-            currNode = currNode.getNext();
-            if (o == null && currNode.getData() == null || currNode.getData().equals(o)) return true;
+        if (o == null) {
+            for (int i = 0; i < size; i++) {
+                if (currNode.getData() == null) return true;
+                currNode = currNode.getNext();
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (currNode.getData().equals(o)) return true;
+                currNode = currNode.getNext();
+            }
         }
         return false;
     }
@@ -281,6 +307,11 @@ public class MyLinkedList implements MyList {
 
         public void setPrev(Node prev) {
             this.prev = prev;
+        }
+
+        @Override
+        public String toString() {
+            return "" + data;
         }
     }
 }
