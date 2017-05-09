@@ -26,14 +26,14 @@ public class MyLinkedList<T> implements MyList<T> {
     @Override
     public boolean add(int index, T o) {
         Node<T> newNode = new Node<>(o);
-        Node temp = head;
+        Node<T> temp = head;
 
         if (index < 0 || index > size) {
             return false;
         }
         if (temp != null) {
             for (int i = 0; i < index; i++) {
-                temp = temp.getNext();
+                temp = temp.next;
             }
         }
         newNode.setNext(temp);
@@ -50,7 +50,7 @@ public class MyLinkedList<T> implements MyList<T> {
 
         Node<T> temp = head;
         for (int i = 0; i < index; i++) {
-            temp = temp.getNext();
+            temp = temp.next;
         }
         return temp.getValue();
     }
@@ -66,9 +66,9 @@ public class MyLinkedList<T> implements MyList<T> {
             if (temp.getNext() == null) {
                 return false;
             }
-            temp = temp.getNext();
+            temp = temp.next;
         }
-        temp.setNext(temp.getNext().getNext());
+        temp.setNext(temp.next.next);
         size--;
         return false;
     }
@@ -84,14 +84,14 @@ public class MyLinkedList<T> implements MyList<T> {
 
         while (current != null) {
             if (current.getValue().equals(o)) {
-                current = current.getNext();
+                current = current.next;
                 if (previous == null) {
                     previous = current;
                     size--;
                     return true;
                 } else {
                     previous = current;
-                    current = current.getNext();
+                    current = current.next;
                 }
             }
         }
@@ -113,7 +113,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public boolean contains(T o) {
+    public boolean contains(Object o) {
         Node<T> current = head;
         for (int i = 0; i < size; i++) {
             if (current.getValue().equals(o)) {
@@ -128,15 +128,15 @@ public class MyLinkedList<T> implements MyList<T> {
         return size;
     }
 
-    private Node goTo(int index) {
+    private Node<T> goTo(int index) {
         Node<T> current = head;
         for (int i = 0; i < index; i++) {
-            current = current.getNext();
+            current = current.next;
         }
         return current;
     }
 
-    class Node<T> {
+    private static class Node<T> {
 
         private Node<T> next;
         private Node<T> previous;
@@ -162,7 +162,7 @@ public class MyLinkedList<T> implements MyList<T> {
             this.next = next;
         }
 
-        public Node getPrevious() {
+        public Node<T> getPrevious() {
             return previous;
         }
 

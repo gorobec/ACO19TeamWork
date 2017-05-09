@@ -12,6 +12,6 @@ public interface MyList<T> {
     boolean remove(T o);
     void set(int index, T o);
     void clear();
-    boolean contains(T o);
+    boolean contains(Object o);
     int size();
 }
