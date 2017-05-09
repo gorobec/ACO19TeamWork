@@ -3,7 +3,7 @@ package week3.linkedList;
 /**
  * Created by SmooZzzie on 08.05.2017.
  */
-public class MyLinkedList<T> implements MyList {
+public class MyLinkedList<T> implements MyList<T> {
 
     private Node<T> head;
     private Node<T> tail;
@@ -47,8 +47,8 @@ public class MyLinkedList<T> implements MyList {
 
         if (addNodeToEmptyList(o)) return true;
 
-        newNode.setPrev(tail);
-        tail.setNext(newNode);
+        newNode.prev = tail;
+        tail.next = newNode;
         tail = newNode;
         size++;
 
@@ -67,18 +67,18 @@ public class MyLinkedList<T> implements MyList {
         Node currNode = head;
 
         for (int i = 0; i < index; i++) {
-            currNode = currNode.getNext();
+            currNode = currNode.next;
         }
 
-        Node prevNode = currNode.getPrev();
+        Node prevNode = currNode.prev;
 
         // привязываемся К новому элементу
-        currNode.setPrev(newNode);
-        prevNode.setNext(newNode);
+        currNode.prev = newNode;
+        prevNode.next = newNode;
 
         // привязываем новый элемент к соседним
-        newNode.setNext(currNode);
-        newNode.setPrev(prevNode);
+        newNode.next = currNode;
+        newNode.prev = prevNode;
 
         size++;
 
@@ -95,8 +95,8 @@ public class MyLinkedList<T> implements MyList {
 
         head = newNode;
 
-        head.setNext(nextNode);
-        nextNode.setPrev(head);
+        head.next = nextNode;
+        nextNode.prev = head;
         size++;
 
         return true;
@@ -112,8 +112,8 @@ public class MyLinkedList<T> implements MyList {
 
         tail = newNode;
 
-        prevNode.setNext(tail);
-        tail.setPrev(prevNode);
+        prevNode.next=tail;
+        tail.prev=prevNode;
         size++;
 
         return true;
@@ -125,10 +125,10 @@ public class MyLinkedList<T> implements MyList {
 
         Node<T> currNode = head;
         for (int i = 0; i < index; i++) {
-            currNode = currNode.getNext();
+            currNode = currNode.next;
         }
 
-        return (T) currNode.getData();
+        return (T) currNode.data;
     }
 
     @Override
@@ -142,14 +142,14 @@ public class MyLinkedList<T> implements MyList {
         Node<T> deletingNode = head;
 
         for (int i = 0; i < index; i++) {
-            deletingNode = deletingNode.getNext();
+            deletingNode = deletingNode.next;
         }
 
-        Node<T> prevNode = deletingNode.getPrev();
-        Node<T> nextNode = deletingNode.getNext();
+        Node<T> prevNode = deletingNode.prev;
+        Node<T> nextNode = deletingNode.next;
 
-        prevNode.setNext(nextNode);
-        nextNode.setPrev(prevNode);
+        prevNode.next=nextNode;
+        nextNode.prev=prevNode;
 
         deletingNode = null;
         size--;
@@ -167,13 +167,13 @@ public class MyLinkedList<T> implements MyList {
         if (o == null) {
             for (int i = 0; i < size; i++) {
 
-                if (o == null && currNode.getData() == null) return remove(i);
-                currNode = currNode.getNext();
+                if (o == null && currNode.data == null) return remove(i);
+                currNode = currNode.next;
             }
         } else {
             for (int i = 0; i < size; i++) {
-                if (o.equals(currNode.getData())) return remove(i);
-                currNode = currNode.getNext();
+                if (o.equals(currNode.data)) return remove(i);
+                currNode = currNode.next;
             }
         }
 
@@ -186,7 +186,7 @@ public class MyLinkedList<T> implements MyList {
 
         if (isEmpty()) return false;
 
-        Node<T> prevNode = tail.getPrev();
+        Node<T> prevNode = tail.prev;
 
         tail = null;
         tail = prevNode;
@@ -201,7 +201,7 @@ public class MyLinkedList<T> implements MyList {
 
         if (isEmpty()) return false;
 
-        Node<T> nextNode = head.getNext();
+        Node<T> nextNode = head.next;
 
         head = null;
         head = nextNode;
@@ -221,11 +221,11 @@ public class MyLinkedList<T> implements MyList {
         Node<T> currNode = head;
 
         for (int i = 0; i < index; i++) {
-            currNode = currNode.getNext();
+            currNode = currNode.next;
         }
 
-        T oldObject = (T)currNode.getData();
-        currNode.setData(o);
+        T oldObject = (T) currNode.data;
+        currNode.data =o;
         return oldObject;
     }
 
@@ -234,8 +234,8 @@ public class MyLinkedList<T> implements MyList {
 
         Node<T> tmp = head;
 
-        while (tmp.getNext() != null) {
-            tmp = tmp.getNext();
+        while (tmp.next != null) {
+            tmp = tmp.next;
             head = null;
             head = tmp;
         }
@@ -255,13 +255,13 @@ public class MyLinkedList<T> implements MyList {
 
         if (o == null) {
             for (int i = 0; i < size; i++) {
-                if (currNode.getData() == null) return true;
-                currNode = currNode.getNext();
+                if (currNode.data == null) return true;
+                currNode = currNode.next;
             }
         } else {
             for (int i = 0; i < size; i++) {
-                if (currNode.getData().equals(o)) return true;
-                currNode = currNode.getNext();
+                if (currNode.data.equals(o)) return true;
+                currNode = currNode.next;
             }
         }
         return false;
@@ -281,30 +281,6 @@ public class MyLinkedList<T> implements MyList {
         public Node(T data, Node<T> next, Node<T> prev) {
             this.data = data;
             this.next = next;
-            this.prev = prev;
-        }
-
-        public T getData() {
-            return data;
-        }
-
-        public void setData(T data) {
-            this.data = data;
-        }
-
-        public Node getNext() {
-            return next;
-        }
-
-        public void setNext(Node<T> next) {
-            this.next = next;
-        }
-
-        public Node getPrev() {
-            return prev;
-        }
-
-        public void setPrev(Node<T> prev) {
             this.prev = prev;
         }
 
