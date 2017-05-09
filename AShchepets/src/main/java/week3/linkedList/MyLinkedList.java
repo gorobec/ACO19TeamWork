@@ -3,25 +3,25 @@ package week3.linkedList;
 /**
  * Created by SmooZzzie on 08.05.2017.
  */
-public class MyLinkedList implements MyList {
+public class MyLinkedList<T> implements MyList {
 
-    private Node head;
-    private Node tail;
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
     public MyLinkedList() {
     }
 
-    public MyLinkedList(Object[] array) {
+    public MyLinkedList(T[] array) {
         for (int i = 0; i < array.length; i++) {
             this.add(array[i]);
         }
     }
 
-    private boolean addNodeToEmptyList(Object o) {
+    private boolean addNodeToEmptyList(T o) {
 
         if (isEmpty()) {
-            Node newNode = new Node(o);
+            Node<T> newNode = new Node<>(o);
 
             head = tail = newNode;
             size++;
@@ -41,9 +41,9 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean add(Object o) {
+    public boolean add(T o) {
 
-        Node newNode = new Node(o);
+        Node<T> newNode = new Node<>(o);
 
         if (addNodeToEmptyList(o)) return true;
 
@@ -56,14 +56,14 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean add(Object o, int index) {
+    public boolean add(T o, int index) {
 
         if (index == 0) return addFirst(o);
         if (index == size - 1) return addLast(o);
 
         if (!checkIndex(index)) return false;
 
-        Node newNode = new Node(o);
+        Node<T> newNode = new Node<>(o);
         Node currNode = head;
 
         for (int i = 0; i < index; i++) {
@@ -86,12 +86,12 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean addFirst(Object o) {
+    public boolean addFirst(T o) {
 
         if (addNodeToEmptyList(o)) return true;
 
-        Node newNode = new Node(o);
-        Node nextNode = head;
+        Node<T> newNode = new Node<>(o);
+        Node<T> nextNode = head;
 
         head = newNode;
 
@@ -103,12 +103,12 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean addLast(Object o) {
+    public boolean addLast(T o) {
 
         if (addNodeToEmptyList(o)) return true;
 
-        Node newNode = new Node(o);
-        Node prevNode = tail;
+        Node<T> newNode = new Node<>(o);
+        Node<T> prevNode = tail;
 
         tail = newNode;
 
@@ -120,15 +120,15 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (!checkIndex(index)) return null;
 
-        Node currNode = head;
+        Node<T> currNode = head;
         for (int i = 0; i < index; i++) {
             currNode = currNode.getNext();
         }
 
-        return currNode.getData();
+        return (T) currNode.getData();
     }
 
     @Override
@@ -139,14 +139,14 @@ public class MyLinkedList implements MyList {
         if (index == 0) return removeFirst();
         if (index == size - 1) return removeLast();
 
-        Node deletingNode = head;
+        Node<T> deletingNode = head;
 
         for (int i = 0; i < index; i++) {
             deletingNode = deletingNode.getNext();
         }
 
-        Node prevNode = deletingNode.getPrev();
-        Node nextNode = deletingNode.getNext();
+        Node<T> prevNode = deletingNode.getPrev();
+        Node<T> nextNode = deletingNode.getNext();
 
         prevNode.setNext(nextNode);
         nextNode.setPrev(prevNode);
@@ -158,11 +158,11 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(T o) {
 
         if (isEmpty() || !contains(o)) return false;
 
-        Node currNode = head;
+        Node<T> currNode = head;
 
         if (o == null) {
             for (int i = 0; i < size; i++) {
@@ -186,7 +186,7 @@ public class MyLinkedList implements MyList {
 
         if (isEmpty()) return false;
 
-        Node prevNode = tail.getPrev();
+        Node<T> prevNode = tail.getPrev();
 
         tail = null;
         tail = prevNode;
@@ -201,7 +201,7 @@ public class MyLinkedList implements MyList {
 
         if (isEmpty()) return false;
 
-        Node nextNode = head.getNext();
+        Node<T> nextNode = head.getNext();
 
         head = null;
         head = nextNode;
@@ -211,20 +211,20 @@ public class MyLinkedList implements MyList {
         return true;
     }
 
-    // метод set() в моем понимании - это просто замена объекта в ноде, не меняя саму ноду
+    // метод set() в моем понимании - это просто замена data в ноде, не меняя саму ноду
     // (???)
     @Override
-    public Object set(int index, Object o) {
+    public T set(int index, T o) {
 
-        if (isEmpty() || !checkIndex(index)) return false;
+        if (isEmpty() || !checkIndex(index)) return null;
 
-        Node currNode = head;
+        Node<T> currNode = head;
 
         for (int i = 0; i < index; i++) {
             currNode = currNode.getNext();
         }
 
-        Object oldObject = currNode.getData();
+        T oldObject = (T)currNode.getData();
         currNode.setData(o);
         return oldObject;
     }
@@ -232,7 +232,7 @@ public class MyLinkedList implements MyList {
     @Override
     public void clear() {
 
-        Node tmp = head;
+        Node<T> tmp = head;
 
         while (tmp.getNext() != null) {
             tmp = tmp.getNext();
@@ -251,8 +251,7 @@ public class MyLinkedList implements MyList {
     @Override
     public boolean contains(Object o) {
 
-        Node currNode = head;
-        boolean isContains;
+        Node<T> currNode = head;
 
         if (o == null) {
             for (int i = 0; i < size; i++) {
@@ -269,27 +268,27 @@ public class MyLinkedList implements MyList {
     }
 
     // ********* NESTED CLASS NODE ***********
-    public static class Node {
+    public static class Node<T> {
 
-        private Object data;
-        private Node next;
-        private Node prev;
+        private T data;
+        private Node<T> next;
+        private Node<T> prev;
 
-        public Node(Object data) {
+        public Node(T data) {
             this.data = data;
         }
 
-        public Node(Object data, Node next, Node prev) {
+        public Node(T data, Node<T> next, Node<T> prev) {
             this.data = data;
             this.next = next;
             this.prev = prev;
         }
 
-        public Object getData() {
+        public T getData() {
             return data;
         }
 
-        public void setData(Object data) {
+        public void setData(T data) {
             this.data = data;
         }
 
@@ -297,7 +296,7 @@ public class MyLinkedList implements MyList {
             return next;
         }
 
-        public void setNext(Node next) {
+        public void setNext(Node<T> next) {
             this.next = next;
         }
 
@@ -305,7 +304,7 @@ public class MyLinkedList implements MyList {
             return prev;
         }
 
-        public void setPrev(Node prev) {
+        public void setPrev(Node<T> prev) {
             this.prev = prev;
         }
 
