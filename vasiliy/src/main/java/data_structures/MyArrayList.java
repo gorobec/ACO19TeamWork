@@ -1,6 +1,5 @@
 package data_structures;
 
-import java.lang.reflect.Array;
 import java.util.Iterator;
 
 public class MyArrayList<T> implements MyList<T> {
@@ -9,14 +8,6 @@ public class MyArrayList<T> implements MyList<T> {
 
     private T[] elementData;
     private int size;
-
-    /*public <T> T[] getArray(Class<T> clazz, int size) {
-        @SuppressWarnings("unchecked")
-        T[] arr = (T[]) Array.newInstance(clazz, size);
-
-        return arr;
-    }*/
-
 
     public MyArrayList(int capacity) {
         elementData = (T[]) new Object[capacity];
@@ -139,11 +130,11 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return new MyArrayListIterator();
     }
 
-    private class MyArrayListIterator implements Iterator {
+    private class MyArrayListIterator implements Iterator<T> {
 
         private int position;
         @Override
