@@ -1,5 +1,7 @@
 package week2.task5_7Equals_Comparable;
 
+import java.util.Arrays;
+
 /**
  * Created by SmooZzzie on 24.04.2017.
  */
@@ -78,5 +80,13 @@ public class University implements Cloneable{
         }
 
         return clone;
+    }
+
+    @Override
+    public String toString() {
+        return "University{" +
+                "universityName='" + universityName + '\'' +
+                ", listOfGroups=" + Arrays.toString(listOfGroups) +
+                '}';
     }
 }
