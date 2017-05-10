@@ -33,6 +33,9 @@ public class UniversityCloneTest {
         testGroup2.getStudents()[2] = testStudent8;
         testGroup2.getStudents()[3] = testStudent9;
 
+        testUniver.getListOfGroups()[0] = testGroup1;
+        testUniver.getListOfGroups()[1] = testGroup2;
+
         University clone = testUniver.clone();
 
         Student newTestStudent1 = new Student("Artem", "Shchepets");
@@ -40,6 +43,7 @@ public class UniversityCloneTest {
 
         clone.getListOfGroups()[0].getStudents()[0] = newTestStudent1;
         clone.getListOfGroups()[1].getStudents()[0] = newTestStudent2;
+        clone.setUniversityName("KPI");
 
         System.out.println("*******ORIGINAL OBJECT*******");
         System.out.println(testUniver);

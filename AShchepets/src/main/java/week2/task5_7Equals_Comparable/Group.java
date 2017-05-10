@@ -1,5 +1,7 @@
 package week2.task5_7Equals_Comparable;
 
+import java.util.Arrays;
+
 /**
  * Created by SmooZzzie on 24.04.2017.
  */
@@ -115,14 +117,10 @@ public class Group implements Cloneable{
 
     @Override
     public String toString() {
-
-        String result = "";
-
-        for (int i = 0; i < actualGroupSize; i++) {
-            result+=students[i].toString() + "\n";
-        }
-
-        return result;
+        return "Group{" +
+                "groupName='" + groupName + '\'' +
+                ", students=" + Arrays.toString(students) +
+                '}';
     }
 
     //added for Week4 CloneTask
@@ -144,4 +142,6 @@ public class Group implements Cloneable{
         }
         return clone;
     }
+
+
 }

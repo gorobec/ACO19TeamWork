@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Created by SmooZzzie on 24.04.2017.
  */
-public class University implements Cloneable{
+public class University implements Cloneable {
 
     private static final int DEFAULT_GROUPS_QUANTITY = 10;
 
@@ -38,6 +38,10 @@ public class University implements Cloneable{
 
     public void setActualGroupQuantity(int actualGroupQuantity) {
         this.actualGroupQuantity = actualGroupQuantity;
+    }
+
+    public void setUniversityName(String universityName) {
+        this.universityName = universityName;
     }
 
     public boolean addGroup(Group newGroup) {
