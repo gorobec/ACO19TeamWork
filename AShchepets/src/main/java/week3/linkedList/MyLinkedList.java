@@ -30,6 +30,23 @@ public class MyLinkedList<T> implements MyList<T> {
         } else return false;
     }
 
+    private Node<T> findNode(int index) {
+
+        if (index < size / 2) {
+            Node<T> currNode = head;
+            for (int i = 0; i < index; i++) {
+                currNode = currNode.next;
+            }
+            return currNode;
+        } else {
+            Node<T> currNode = tail;
+            for (int i = 0; i < size - index - 1; i++) {
+                currNode = currNode.prev;
+            }
+            return currNode;
+        }
+    }
+
     @Override
     public int size() {
         return size;
@@ -64,13 +81,10 @@ public class MyLinkedList<T> implements MyList<T> {
         if (!checkIndex(index)) return false;
 
         Node<T> newNode = new Node<>(o);
-        Node currNode = head;
 
-        for (int i = 0; i < index; i++) {
-            currNode = currNode.next;
-        }
+        Node<T> currNode = findNode(index);
 
-        Node prevNode = currNode.prev;
+        Node<T> prevNode = currNode.prev;
 
         // привязываемся К новому элементу
         currNode.prev = newNode;
@@ -112,8 +126,8 @@ public class MyLinkedList<T> implements MyList<T> {
 
         tail = newNode;
 
-        prevNode.next=tail;
-        tail.prev=prevNode;
+        prevNode.next = tail;
+        tail.prev = prevNode;
         size++;
 
         return true;
@@ -123,12 +137,9 @@ public class MyLinkedList<T> implements MyList<T> {
     public T get(int index) {
         if (!checkIndex(index)) return null;
 
-        Node<T> currNode = head;
-        for (int i = 0; i < index; i++) {
-            currNode = currNode.next;
-        }
+        Node<T> currNode = findNode(index);
 
-        return (T) currNode.data;
+        return currNode.data;
     }
 
     @Override
@@ -139,17 +150,13 @@ public class MyLinkedList<T> implements MyList<T> {
         if (index == 0) return removeFirst();
         if (index == size - 1) return removeLast();
 
-        Node<T> deletingNode = head;
-
-        for (int i = 0; i < index; i++) {
-            deletingNode = deletingNode.next;
-        }
+        Node<T> deletingNode = findNode(index);
 
         Node<T> prevNode = deletingNode.prev;
         Node<T> nextNode = deletingNode.next;
 
-        prevNode.next=nextNode;
-        nextNode.prev=prevNode;
+        prevNode.next = nextNode;
+        nextNode.prev = prevNode;
 
         deletingNode = null;
         size--;
@@ -167,7 +174,7 @@ public class MyLinkedList<T> implements MyList<T> {
         if (o == null) {
             for (int i = 0; i < size; i++) {
 
-                if (o == null && currNode.data == null) return remove(i);
+                if (currNode.data == null) return remove(i);
                 currNode = currNode.next;
             }
         } else {
@@ -211,21 +218,16 @@ public class MyLinkedList<T> implements MyList<T> {
         return true;
     }
 
-    // метод set() в моем понимании - это просто замена data в ноде, не меняя саму ноду
-    // (???)
     @Override
     public T set(int index, T o) {
 
         if (isEmpty() || !checkIndex(index)) return null;
 
-        Node<T> currNode = head;
+        Node<T> currNode = findNode(index);
 
-        for (int i = 0; i < index; i++) {
-            currNode = currNode.next;
-        }
+        T oldObject =  currNode.data;
+        currNode.data = o;
 
-        T oldObject = (T) currNode.data;
-        currNode.data =o;
         return oldObject;
     }
 
