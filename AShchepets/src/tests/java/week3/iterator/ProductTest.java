@@ -1,4 +1,4 @@
-package week3.Iterator;
+package week3.iterator;
 
 import org.junit.After;
 import org.junit.Assert;

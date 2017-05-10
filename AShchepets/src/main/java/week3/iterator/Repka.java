@@ -1,6 +1,5 @@
-package week3.Iterator;
+package week3.iterator;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 /**

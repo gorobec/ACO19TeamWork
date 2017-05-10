@@ -108,13 +108,7 @@ public class MyArrayListTest {
         Assert.assertEquals(expectedSize,actual);
     }
 
-/*    @Test
-    public void test_contains() {
 
-        Object testValue = "TestValue5";
-
-        Assert.assertTrue(testArrayList.contains(testValue));
-    }*/
 
     //added tests for remove() and contains()
     @Test
