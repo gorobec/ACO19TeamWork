@@ -3,7 +3,7 @@ package week2.task5_7Equals_Comparable;
 /**
  * Created by SmooZzzie on 24.04.2017.
  */
-public class University {
+public class University implements Cloneable{
 
     private static final int DEFAULT_GROUPS_QUANTITY = 10;
 
@@ -60,4 +60,23 @@ public class University {
         return false;
     }
 
+    //added for week4 CloneTask
+    @Override
+    protected University clone() throws CloneNotSupportedException {
+        University clone = (University) super.clone();
+
+        clone.listOfGroups = cloneListOfGroups(listOfGroups);
+        return clone;
+    }
+
+    private Group[] cloneListOfGroups(Group[] listOfGroups) throws CloneNotSupportedException {
+
+        Group[] clone = this.listOfGroups.clone();
+
+        for (int i = 0; i < listOfGroups.length; i++) {
+            clone[i] = clone[i].cloneGroup(clone[i]);
+        }
+
+        return clone;
+    }
 }

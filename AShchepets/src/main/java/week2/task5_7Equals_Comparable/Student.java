@@ -3,7 +3,7 @@ package week2.task5_7Equals_Comparable;
 /**
  * Created by SmooZzzie on 24.04.2017.
  */
-public class Student implements Comparable<Student> {
+public class Student implements Comparable<Student>,Cloneable{
 
     private String studentName;
     private String studentSurname;
@@ -65,5 +65,13 @@ public class Student implements Comparable<Student> {
         return "Student " +
                 studentName + " " +
                 studentSurname;
+    }
+
+    // added method for Week 4 CloneTask
+    public Student cloneStudent(Student student) throws CloneNotSupportedException {
+
+        Student clone = (Student) super.clone();
+
+        return clone;
     }
 }
