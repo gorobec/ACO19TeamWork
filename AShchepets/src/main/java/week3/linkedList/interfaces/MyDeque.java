@@ -15,6 +15,6 @@ public interface MyDeque<T> extends MyQueue<T> {
     T pollFirst();
     T pollLast();
     void push(T e);
-    boolean removeFirst();
-    boolean removeLast();
+    T removeFirst();
+    T removeLast();
 }

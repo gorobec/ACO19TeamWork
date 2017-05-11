@@ -6,7 +6,7 @@ package week3.linkedList.interfaces;
 public interface MyCollection<T> {
     int size();
     boolean checkIndex(int index);
-    boolean add(T o);
+    boolean add(T o) throws IllegalStateException;
     boolean remove(T o);
     void clear();
     boolean isEmpty();

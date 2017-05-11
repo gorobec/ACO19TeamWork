@@ -3,6 +3,8 @@ package week3.linkedList;
 import week3.linkedList.interfaces.MyDeque;
 import week3.linkedList.interfaces.MyList;
 
+import java.util.NoSuchElementException;
+
 /**
  * Created by SmooZzzie on 08.05.2017.
  */
@@ -10,6 +12,10 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
     private Node<T> head;
     private Node<T> tail;
+
+    // аля очень большое (типа неограничение количество)
+    // ограничивать будет пользователь при создании конструктора с размером
+    private int maxSize = 1000000;
     private int size;
 
     public MyLinkedList() {
@@ -19,6 +25,11 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         for (int i = 0; i < array.length; i++) {
             this.add(array[i]);
         }
+    }
+
+    // constructor with restricted size
+    public MyLinkedList(int maxSize) {
+        this.maxSize = maxSize;
     }
 
     // ********* NESTED CLASS NODE ***********
@@ -73,6 +84,7 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         }
     }
 
+
     //*************METHODS FROM MYCOLLECTION AND MYLIST**************
     @Override
     public int size() {
@@ -86,10 +98,11 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
     @Override
     public boolean add(T o) {
-        //TODO Exception: throwing an IllegalStateException if no space is currently available.
         Node<T> newNode = new Node<>(o);
 
         if (addNodeToEmptyList(o)) return true;
+
+        if (size >= maxSize) throw new IllegalStateException("Your deque is restricted and already filled!");
 
         newNode.prev = tail;
         tail.next = newNode;
@@ -112,6 +125,11 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         }
 
         if (!checkIndex(index)) return false;
+
+        if (size >= maxSize) {
+            throw new IllegalStateException("Your deque already filled!");
+        }
+
 
         Node<T> newNode = new Node<>(o);
 
@@ -250,10 +268,148 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
     @Override
     public void addFirst(T o) {
-        // TODO throwing an IllegalStateException if no space is currently available.
-        if (addNodeToEmptyList(o)) return true;
+
+        if (addNodeToEmptyList(o)) return;
+
+        if (size >= maxSize) throw new IllegalStateException("Your deque is already filled!");
 
         Node<T> newNode = new Node<>(o);
+        Node<T> nextNode = head;
+
+        head = newNode;
+
+        head.next = nextNode;
+        nextNode.prev = head;
+        size++;
+
+    }
+
+    @Override
+    public void addLast(T o) {
+        if (addNodeToEmptyList(o)) return;
+
+        if (size >= maxSize) throw new IllegalStateException("Your deque is already filled!");
+
+        Node<T> newNode = new Node<>(o);
+        Node<T> prevNode = tail;
+
+        tail = newNode;
+
+        prevNode.next = tail;
+        tail.prev = prevNode;
+        size++;
+
+    }
+
+    @Override
+    public T removeLast() {
+        // Retrieves and removes the last element of this deque.
+        // This method differs from pollLast only in that it throws an exception if this deque is empty.
+
+        if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
+
+        Node<T> prevNode = tail.prev;
+        Node<T> oldTail = tail;
+        tail = null;
+        tail = prevNode;
+
+        size--;
+
+        return oldTail.data;
+    }
+
+    @Override
+    public T removeFirst() {
+        // Retrieves and removes the first element of this deque.
+        // This method differs from pollFirst only in that it throws an exception if this deque is empty.
+        if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
+
+        Node<T> nextNode = head.next;
+        Node<T> oldHead = head;
+
+        head = null;
+        head = nextNode;
+
+        size--;
+
+        return oldHead.data;
+    }
+
+    @Override
+    public T element() {
+        //Retrieves, but does not remove, the head of the queue represented by this deque
+        // (in other words, the first element of this deque).
+        // This method differs from peek only in that it throws an exception if this deque is empty.
+        //This method is equivalent to getFirst().
+        return getFirst();
+    }
+
+    @Override
+    public T getFirst() {
+        //Retrieves, but does not remove, the first element of this deque.
+        // This method differs from peekFirst only in that it throws an exception if this deque is empty.
+
+        if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
+
+        Node<T> node = head;
+
+        return head.data;
+    }
+
+    @Override
+    public boolean offer(T e) {
+       /* Inserts the specified element into the queue represented by this deque
+                (in other words, at the tail of this deque)
+        if it is possible to do so immediately without violating capacity restrictions,
+        returning true upon success and false if no space is currently available.
+                When using a capacity-restricted deque, this method is generally preferable to the add(E) method,
+                which can fail to insert an element only by throwing an exception.
+                This method is equivalent to offerLast(E).*/
+        return offerLast(e);
+    }
+
+    @Override
+    public T getLast() {
+        //Retrieves, but does not remove, the last element of this deque.
+        // This method differs from peekLast only in that it throws an exception if this deque is empty.
+
+        if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
+
+        Node<T> node = tail;
+
+        return node.data;
+    }
+
+    @Override
+    public T peek() {
+        // Retrieves, but does not remove, the head of the queue represented by this deque
+        // (in other words, the first element of this deque), or returns null if this deque is empty.
+        //This method is equivalent to peekFirst().
+
+        return peekFirst();
+    }
+
+    @Override
+    public T poll() {
+    /*    Retrieves and removes the head of the queue represented by this deque
+        (in other words, the first element of this deque),
+        or returns null if this deque is empty.
+        This method is equivalent to pollFirst().*/
+
+        return pollFirst();
+    }
+
+    @Override
+    public boolean offerFirst(T e) {
+        /*Inserts the specified element at the front of this deque unless it would violate capacity restrictions.
+         When using a capacity-restricted deque, this method is generally preferable to the addFirst(E) method,
+          which can fail to insert an element only by throwing an exception.*/
+
+        if (addNodeToEmptyList(e)) return true;
+
+        if (size >= maxSize) return false;
+
+        Node<T> newNode = new Node<>(e);
         Node<T> nextNode = head;
 
         head = newNode;
@@ -266,11 +422,27 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     }
 
     @Override
-    public void addLast(T o) {
-        //TODO throwing an IllegalStateException if no space is currently available.
-        if (addNodeToEmptyList(o)) return true;
+    public T remove() {
 
-        Node<T> newNode = new Node<>(o);
+        // Retrieves and removes the head of the queue represented by this deque
+        // (in other words, the first element of this deque).
+        // This method differs from poll only in that it throws an exception if this deque is empty.
+        //This method is equivalent to removeFirst().
+        return removeFirst();
+    }
+
+    @Override
+    public boolean offerLast(T e) {
+        /*Inserts the specified element at the end of this deque unless it would violate capacity restrictions.
+         When using a capacity-restricted deque,
+          this method is generally preferable to the addLast(E) method,
+           which can fail to insert an element only by throwing an exception.*/
+
+        if (addNodeToEmptyList(e)) return true;
+
+        if (size >= maxSize) return false;
+
+        Node<T> newNode = new Node<>(e);
         Node<T> prevNode = tail;
 
         tail = newNode;
@@ -283,142 +455,54 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     }
 
     @Override
-    public T removeLast() {
-        //TODO Retrieves and removes the last element of this deque.
-        // TODO This method differs from pollLast only in that it throws an exception if this deque is empty.
-        if (isEmpty()) return false;
+    public T peekFirst() {
+        // Retrieves, but does not remove, the first element of this deque, or returns null if this deque is empty.
+        if (isEmpty()) return null;
 
-        Node<T> prevNode = tail.prev;
+        Node<T> node = head;
 
-        tail = null;
-        tail = prevNode;
-
-        size--;
-
-        return true;
+        return head.data;
     }
 
     @Override
-    public T removeFirst() {
-        //TODO Retrieves and removes the first element of this deque.
-        // TODO This method differs from pollFirst only in that it throws an exception if this deque is empty.
-        if (isEmpty()) return false;
+    public T peekLast() {
+        //Retrieves, but does not remove, the last element of this deque, or returns null if this deque is empty.
+        if (isEmpty()) return null;
+
+        Node<T> node = tail;
+
+        return node.data;
+    }
+
+    @Override
+    public T pollFirst() {
+        //Retrieves and removes the first element of this deque, or returns null if this deque is empty.
+        if (isEmpty()) return null;
 
         Node<T> nextNode = head.next;
+        Node<T> oldHead = head;
 
         head = null;
         head = nextNode;
 
         size--;
 
-        return true;
-    }
-
-    @Override
-    public T element() {
-        //Retrieves, but does not remove, the head of the queue represented by this deque
-        // (in other words, the first element of this deque).
-        // This method differs from peek only in that it throws an exception if this deque is empty.
-        //This method is equivalent to getFirst().
-        return null;
-    }
-
-    @Override
-    public T getFirst() {
-        //Retrieves, but does not remove, the first element of this deque.
-        // This method differs from peekLast only in that it throws an exception if this deque is empty.
-        return null;
-    }
-
-    @Override
-    public boolean offer(T e) {
-       /* Inserts the specified element into the queue represented by this deque
-                (in other words, at the tail of this deque)
-        if it is possible to do so immediately without violating capacity restrictions,
-        returning true upon success and false if no space is currently available.
-                When using a capacity-restricted deque, this method is generally preferable to the add(E) method,
-                which can fail to insert an element only by throwing an exception.
-                This method is equivalent to offerLast(E).*/
-
-        return false;
-    }
-
-    @Override
-    public T getLast() {
-        //Retrieves, but does not remove, the last element of this deque.
-        // This method differs from peekLast only in that it throws an exception if this deque is empty.
-        return null;
-    }
-
-    @Override
-    public T peek() {
-        // Retrieves, but does not remove, the head of the queue represented by this deque
-        // (in other words, the first element of this deque), or returns null if this deque is empty.
-        //This method is equivalent to peekFirst().
-        return null;
-    }
-
-    @Override
-    public T poll() {
-    /*    Retrieves, but does not remove, the head of the queue represented by this deque
-                (in other words, the first element of this deque).
-        This method differs from peek only in that it throws an exception if this deque is empty.
-                This method is equivalent to getFirst().*/
-
-        return null;
-    }
-
-    @Override
-    public boolean offerFirst(T e) {
-        /*Inserts the specified element at the front of this deque unless it would violate capacity restrictions.
-         When using a capacity-restricted deque, this method is generally preferable to the addFirst(E) method,
-          which can fail to insert an element only by throwing an exception.*/
-
-        return false;
-    }
-
-    @Override
-    public T remove() {
-
-        // Retrieves and removes the head of the queue represented by this deque
-        // (in other words, the first element of this deque).
-        // This method differs from poll only in that it throws an exception if this deque is empty.
-        //This method is equivalent to removeFirst().
-        return null;
-    }
-
-    @Override
-    public boolean offerLast(T e) {
-        /*Inserts the specified element at the end of this deque unless it would violate capacity restrictions.
-         When using a capacity-restricted deque,
-          this method is generally preferable to the addLast(E) method,
-           which can fail to insert an element only by throwing an exception.*/
-
-        return false;
-    }
-
-    @Override
-    public T peekFirst() {
-        // Retrieves, but does not remove, the first element of this deque, or returns null if this deque is empty.
-        return null;
-    }
-
-    @Override
-    public T peekLast() {
-        //Retrieves, but does not remove, the last element of this deque, or returns null if this deque is empty.
-        return null;
-    }
-
-    @Override
-    public T pollFirst() {
-        //Retrieves and removes the first element of this deque, or returns null if this deque is empty.
-        return null;
+        return oldHead.data;
     }
 
     @Override
     public T pollLast() {
         //Retrieves and removes the last element of this deque, or returns null if this deque is empty.
-        return null;
+        if (isEmpty()) return null;
+
+        Node<T> prevNode = tail.prev;
+        Node<T> oldTail = tail;
+        tail = null;
+        tail = prevNode;
+
+        size--;
+
+        return oldTail.data;
     }
 
     @Override
@@ -426,5 +510,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         // Pushes an element onto the stack represented by this deque (in other words, at the head of this deque)
         // if it is possible to do so immediately without violating capacity restrictions,
         // throwing an IllegalStateException if no space is currently available.
+        addFirst(e);
     }
 }
