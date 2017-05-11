@@ -16,7 +16,7 @@ public class BinarySearch {
 
         Arrays.sort(array);
 
-        while (start != end) {
+        while (end >= start) {
 
             middle = (start + end) / 2;
 
@@ -25,10 +25,10 @@ public class BinarySearch {
             // как с объектами и кастирует их внутри своего метода.
             // Приходится обратно кастировать с объекта в Т после сортировки
 
-            int result = o.compareTo((T) array[middle]);
+            int result = array[middle].compareTo((T) o);
             if (result == 0) {
                 return true;
-            } else if (result > 0) {
+            } else if (result < 0) {
                 start = middle + 1;
             } else {
                 end = middle - 1;
@@ -37,7 +37,7 @@ public class BinarySearch {
         return false;
     }
 
-    public static<T extends Comparator> boolean contains(T[] array, T o, Comparator<? super T> comparator ) {
+    public static<T extends Comparator> boolean contains(T[] array, T o, Comparator<T> comparator ) {
 
         int start = 0;
         int end = array.length - 1;
@@ -45,15 +45,15 @@ public class BinarySearch {
 
         Arrays.sort(array,comparator);
 
-        while (start != end) {
+        while (end>=start) {
 
             middle = (start + end) / 2;
 
-            int result = comparator.compare(o, array[middle]);
+            int result = comparator.compare(array[middle],o);
 
             if (result == 0) {
                 return true;
-            } else if (result > 0) {
+            } else if (result < 0) {
                 start = middle + 1;
             } else {
                 end = middle - 1;
