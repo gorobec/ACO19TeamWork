@@ -28,12 +28,12 @@ public class BinarySearch {
             middle = (start + end) / 2;
 
             int result = comparator != null ?
-                    comparator.compare(array[middle], o) :
+                    comparator.compare(o, array[middle]) :
                     o.compareTo(array[middle]);
 
             if (result == 0) {
                 return true;
-            } else if (result < 0) {
+            } else if (result > 0) {
                 start = middle + 1;
             } else {
                 end = middle - 1;
