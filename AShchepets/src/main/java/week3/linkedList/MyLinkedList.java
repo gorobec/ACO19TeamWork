@@ -302,23 +302,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     }
 
     @Override
-    public T removeLast() {
-        // Retrieves and removes the last element of this deque.
-        // This method differs from pollLast only in that it throws an exception if this deque is empty.
-
-        if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
-
-        Node<T> prevNode = tail.prev;
-        Node<T> oldTail = tail;
-        tail = null;
-        tail = prevNode;
-
-        size--;
-
-        return oldTail.data;
-    }
-
-    @Override
     public T removeFirst() {
         // Retrieves and removes the first element of this deque.
         // This method differs from pollFirst only in that it throws an exception if this deque is empty.
@@ -333,6 +316,23 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         size--;
 
         return oldHead.data;
+    }
+
+    @Override
+    public T removeLast() {
+        // Retrieves and removes the last element of this deque.
+        // This method differs from pollLast only in that it throws an exception if this deque is empty.
+
+        if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
+
+        Node<T> prevNode = tail.prev;
+        Node<T> oldTail = tail;
+        tail = null;
+        tail = prevNode;
+
+        size--;
+
+        return oldTail.data;
     }
 
     @Override
@@ -357,18 +357,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     }
 
     @Override
-    public boolean offer(T e) {
-       /* Inserts the specified element into the queue represented by this deque
-                (in other words, at the tail of this deque)
-        if it is possible to do so immediately without violating capacity restrictions,
-        returning true upon success and false if no space is currently available.
-                When using a capacity-restricted deque, this method is generally preferable to the add(E) method,
-                which can fail to insert an element only by throwing an exception.
-                This method is equivalent to offerLast(E).*/
-        return offerLast(e);
-    }
-
-    @Override
     public T getLast() {
         //Retrieves, but does not remove, the last element of this deque.
         // This method differs from peekLast only in that it throws an exception if this deque is empty.
@@ -381,22 +369,15 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     }
 
     @Override
-    public T peek() {
-        // Retrieves, but does not remove, the head of the queue represented by this deque
-        // (in other words, the first element of this deque), or returns null if this deque is empty.
-        //This method is equivalent to peekFirst().
-
-        return peekFirst();
-    }
-
-    @Override
-    public T poll() {
-    /*    Retrieves and removes the head of the queue represented by this deque
-        (in other words, the first element of this deque),
-        or returns null if this deque is empty.
-        This method is equivalent to pollFirst().*/
-
-        return pollFirst();
+    public boolean offer(T e) {
+       /* Inserts the specified element into the queue represented by this deque
+                (in other words, at the tail of this deque)
+        if it is possible to do so immediately without violating capacity restrictions,
+        returning true upon success and false if no space is currently available.
+                When using a capacity-restricted deque, this method is generally preferable to the add(E) method,
+                which can fail to insert an element only by throwing an exception.
+                This method is equivalent to offerLast(E).*/
+        return offerLast(e);
     }
 
     @Override
@@ -419,16 +400,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         size++;
 
         return true;
-    }
-
-    @Override
-    public T remove() {
-
-        // Retrieves and removes the head of the queue represented by this deque
-        // (in other words, the first element of this deque).
-        // This method differs from poll only in that it throws an exception if this deque is empty.
-        //This method is equivalent to removeFirst().
-        return removeFirst();
     }
 
     @Override
@@ -455,6 +426,15 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     }
 
     @Override
+    public T peek() {
+        // Retrieves, but does not remove, the head of the queue represented by this deque
+        // (in other words, the first element of this deque), or returns null if this deque is empty.
+        //This method is equivalent to peekFirst().
+
+        return peekFirst();
+    }
+
+    @Override
     public T peekFirst() {
         // Retrieves, but does not remove, the first element of this deque, or returns null if this deque is empty.
         if (isEmpty()) return null;
@@ -472,6 +452,16 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         Node<T> node = tail;
 
         return node.data;
+    }
+
+    @Override
+    public T poll() {
+    /*    Retrieves and removes the head of the queue represented by this deque
+        (in other words, the first element of this deque),
+        or returns null if this deque is empty.
+        This method is equivalent to pollFirst().*/
+
+        return pollFirst();
     }
 
     @Override
@@ -503,6 +493,16 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         size--;
 
         return oldTail.data;
+    }
+
+    @Override
+    public T remove() {
+
+        // Retrieves and removes the head of the queue represented by this deque
+        // (in other words, the first element of this deque).
+        // This method differs from poll only in that it throws an exception if this deque is empty.
+        //This method is equivalent to removeFirst().
+        return removeFirst();
     }
 
     @Override
