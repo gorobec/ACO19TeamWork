@@ -1,13 +1,13 @@
 package data_structures;
 
-public interface MyList extends MyCollection {
-    boolean add(int index, Object o);
+public interface MyList<T> extends MyCollection<T> {
+    boolean add(int index, T o);
 
-    Object get(int index);
+    T get(int index);
 
-    Object remove(int index);
+    T remove(int index);
 
-    Object set(int index, Object o);
+    T set(int index, T o);
 
-    int indexOf(Object o);
+    int indexOf(T o);
 }

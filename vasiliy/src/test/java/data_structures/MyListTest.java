@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public abstract class MyListTest {
-    protected MyList myList;
+    protected MyList<String> myList;
 
     @Before
     public abstract void setUp();
@@ -59,7 +59,7 @@ public abstract class MyListTest {
     @Test
     public void indexOf3() {
         int expected = 3;
-        int actual = myList.indexOf(5);
+        int actual = myList.indexOf("5");
         Assert.assertEquals(expected, actual);
     }
 
@@ -88,7 +88,7 @@ public abstract class MyListTest {
 
     @Test
     public void contains2() {
-        boolean actual = myList.contains(6);
+        boolean actual = myList.contains("6");
         Assert.assertFalse(actual);
     }
 
@@ -141,7 +141,7 @@ public abstract class MyListTest {
 
     @Test
     public void get1() {
-        Object expected = 7.7;
+        Object expected = "7.7";
         Object actual = myList.get(4);
         Assert.assertEquals(expected, actual);
     }
@@ -154,7 +154,7 @@ public abstract class MyListTest {
 
     @Test
     public void remove1() {
-        Object expected = 7.7;
+        Object expected = "7.7";
         Object actual = myList.remove(4);
         Assert.assertEquals(expected, actual);
     }
@@ -164,7 +164,7 @@ public abstract class MyListTest {
         Object actual = myList.remove(0);
         Assert.assertNull(actual);
 
-        int expectedIndex = 4;
+        int expectedIndex = -1;
         int actualIndex = myList.indexOf(null);
         Assert.assertEquals(expectedIndex, actualIndex);
     }
@@ -180,7 +180,7 @@ public abstract class MyListTest {
         boolean actual = myList.remove(null);
         Assert.assertTrue(actual);
 
-        int expectedIndex = 4;
+        int expectedIndex = -1;
         int actualIndex = myList.indexOf(null);
         Assert.assertEquals(expectedIndex, actualIndex);
     }
@@ -211,30 +211,31 @@ public abstract class MyListTest {
         int actualSize = myList.size();
         Assert.assertEquals(expectedSize, actualSize);
 
+        Object expected = "null";
         Object actual = myList.get(5);
-        Assert.assertNull(actual);
+        Assert.assertEquals(expected,actual);
     }
 
     @Test
     public void set1() {
-        Object expected = 5;
-        Object actual = myList.set(3, 100);
+        Object expected = "5";
+        Object actual = myList.set(3, "100");
         Assert.assertEquals(expected, actual);
 
-        Object expectedObject = 100;
+        Object expectedObject = "100";
         Object actualObject = myList.get(3);
         Assert.assertEquals(expectedObject, actualObject);
     }
 
     @Test
     public void set2() {
-        Object actual = myList.set(0, 100);
+        Object actual = myList.set(0, "100");
         Assert.assertNull(actual);
     }
 
     @Test
     public void set3() {
-        Object actual = myList.set(-5, 100);
+        Object actual = myList.set(-5, "100");
         Assert.assertNull(actual);
     }
 }
