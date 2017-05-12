@@ -51,37 +51,35 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
         @Override
         public String toString() {
-            return "" + data;
+            return String.valueOf(data);
         }
     }
 
     private boolean addNodeToEmptyList(T o) {
 
-        if (isEmpty()) {
-            Node<T> newNode = new Node<>(o);
+        Node<T> newNode = new Node<>(o);
 
-            head = tail = newNode;
-            size++;
+        head = tail = newNode;
+        size++;
 
-            return true;
-        } else return false;
+        return true;
     }
 
     private Node<T> findNode(int index) {
-
+        checkIndex(index);
+        Node<T> currNode;
         if (index < size / 2) {
-            Node<T> currNode = head;
+            currNode = head;
             for (int i = 0; i < index; i++) {
                 currNode = currNode.next;
             }
-            return currNode;
         } else {
-            Node<T> currNode = tail;
+            currNode = tail;
             for (int i = 0; i < size - index - 1; i++) {
                 currNode = currNode.prev;
             }
-            return currNode;
         }
+        return currNode;
     }
 
 
@@ -91,18 +89,18 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         return size;
     }
 
-    @Override
-    public boolean checkIndex(int index) {
-        return index >= 0 && index < size;
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException(String.format("Index: %s", index));
     }
 
     @Override
     public boolean add(T o) {
-        Node<T> newNode = new Node<>(o);
-
-        if (addNodeToEmptyList(o)) return true;
 
         if (size >= maxSize) throw new IllegalStateException("Your deque is restricted and already filled!");
+
+        Node<T> newNode = new Node<>(o);
+
+        if (isEmpty()) return addNodeToEmptyList(o);
 
         newNode.prev = tail;
         tail.next = newNode;
@@ -115,6 +113,12 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     @Override
     public boolean add(T o, int index) {
 
+        if (size >= maxSize) {
+            throw new IllegalStateException("Your deque already filled!");
+        }
+
+        checkIndex(index);
+
         if (index == 0) {
             addFirst(o);
             return true;
@@ -123,13 +127,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
             addLast(o);
             return true;
         }
-
-        if (!checkIndex(index)) return false;
-
-        if (size >= maxSize) {
-            throw new IllegalStateException("Your deque already filled!");
-        }
-
 
         Node<T> newNode = new Node<>(o);
 
@@ -153,7 +150,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
     @Override
     public T get(int index) {
-        if (!checkIndex(index)) return null;
 
         Node<T> currNode = findNode(index);
 
@@ -163,7 +159,9 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     @Override
     public boolean remove(int index) {
 
-        if (isEmpty() || !checkIndex(index)) return false;
+        checkIndex(index);
+
+        if (isEmpty()) return false;
 
         if (index == 0) {
             removeFirst();
@@ -176,38 +174,31 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
         Node<T> deletingNode = findNode(index);
 
-        Node<T> prevNode = deletingNode.prev;
-        Node<T> nextNode = deletingNode.next;
+        deleteNode(deletingNode);
 
-        prevNode.next = nextNode;
-        nextNode.prev = prevNode;
-
-        deletingNode = null;
         size--;
 
         return true;
     }
 
+    private void deleteNode(Node<T> deletingNode) {
+        Node<T> prevNode = deletingNode.prev;
+        Node<T> nextNode = deletingNode.next;
+
+        prevNode.next = nextNode;
+        nextNode.prev = prevNode;
+    }
+
     @Override
     public boolean remove(T o) {
 
-        if (isEmpty() || !contains(o)) return false;
+        if (isEmpty()) return false;
 
-        Node<T> currNode = head;
+        Node<T> deletingNode = findNode(o);
 
-        if (o == null) {
-            for (int i = 0; i < size; i++) {
+        deleteNode(deletingNode);
 
-                if (currNode.data == null) return remove(i);
-                currNode = currNode.next;
-            }
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (o.equals(currNode.data)) return remove(i);
-                currNode = currNode.next;
-            }
-        }
-
+        size--;
 
         return true;
     }
@@ -216,7 +207,7 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     @Override
     public T set(int index, T o) {
 
-        if (isEmpty() || !checkIndex(index)) return null;
+        if (isEmpty()) return null;
 
         Node<T> currNode = findNode(index);
 
@@ -247,21 +238,25 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
     @Override
     public boolean contains(Object o) {
+        return findNode(o) != null;
+    }
+
+    private Node<T> findNode(Object o) {
 
         Node<T> currNode = head;
 
         if (o == null) {
             for (int i = 0; i < size; i++) {
-                if (currNode.data == null) return true;
+                if (currNode.data == null) return currNode;
                 currNode = currNode.next;
             }
         } else {
             for (int i = 0; i < size; i++) {
-                if (currNode.data.equals(o)) return true;
+                if (currNode.data.equals(o)) return currNode;
                 currNode = currNode.next;
             }
         }
-        return false;
+        return null;
     }
 
     // **********ADDED METHODS FROM DEQUE INTERFACE**************
@@ -269,27 +264,35 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
     @Override
     public void addFirst(T o) {
 
-        if (addNodeToEmptyList(o)) return;
-
         if (size >= maxSize) throw new IllegalStateException("Your deque is already filled!");
 
-        Node<T> newNode = new Node<>(o);
-        Node<T> nextNode = head;
+        if (isEmpty()) {
+            addNodeToEmptyList(o);
+            return;
+        }
 
-        head = newNode;
-
-        head.next = nextNode;
-        nextNode.prev = head;
+        addFirstNode(o);
         size++;
 
     }
 
     @Override
     public void addLast(T o) {
-        if (addNodeToEmptyList(o)) return;
 
         if (size >= maxSize) throw new IllegalStateException("Your deque is already filled!");
 
+        if (isEmpty()) {
+            addNodeToEmptyList(o);
+            return;
+        }
+
+
+        addLastNode(o);
+        size++;
+
+    }
+
+    private void addLastNode(T o) {
         Node<T> newNode = new Node<>(o);
         Node<T> prevNode = tail;
 
@@ -297,8 +300,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
         prevNode.next = tail;
         tail.prev = prevNode;
-        size++;
-
     }
 
     @Override
@@ -307,15 +308,7 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         // This method differs from pollFirst only in that it throws an exception if this deque is empty.
         if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
 
-        Node<T> nextNode = head.next;
-        Node<T> oldHead = head;
-
-        head = null;
-        head = nextNode;
-
-        size--;
-
-        return oldHead.data;
+        return deleteFirstNode();
     }
 
     @Override
@@ -325,14 +318,7 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
         if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
 
-        Node<T> prevNode = tail.prev;
-        Node<T> oldTail = tail;
-        tail = null;
-        tail = prevNode;
-
-        size--;
-
-        return oldTail.data;
+        return deleteLastNode();
     }
 
     @Override
@@ -351,8 +337,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
         if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
 
-        Node<T> node = head;
-
         return head.data;
     }
 
@@ -363,9 +347,7 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
         if (isEmpty()) throw new NoSuchElementException("Deque is empty!");
 
-        Node<T> node = tail;
-
-        return node.data;
+        return tail.data;
     }
 
     @Override
@@ -386,10 +368,19 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
          When using a capacity-restricted deque, this method is generally preferable to the addFirst(E) method,
           which can fail to insert an element only by throwing an exception.*/
 
-        if (addNodeToEmptyList(e)) return true;
-
         if (size >= maxSize) return false;
 
+        if (isEmpty()) return addNodeToEmptyList(e);
+
+
+        addFirstNode(e);
+
+        size++;
+
+        return true;
+    }
+
+    private void addFirstNode(T e) {
         Node<T> newNode = new Node<>(e);
         Node<T> nextNode = head;
 
@@ -397,9 +388,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
 
         head.next = nextNode;
         nextNode.prev = head;
-        size++;
-
-        return true;
     }
 
     @Override
@@ -409,17 +397,11 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
           this method is generally preferable to the addLast(E) method,
            which can fail to insert an element only by throwing an exception.*/
 
-        if (addNodeToEmptyList(e)) return true;
+        if (isEmpty()) return addNodeToEmptyList(e);
 
         if (size >= maxSize) return false;
 
-        Node<T> newNode = new Node<>(e);
-        Node<T> prevNode = tail;
-
-        tail = newNode;
-
-        prevNode.next = tail;
-        tail.prev = prevNode;
+        addLastNode(e);
         size++;
 
         return true;
@@ -439,8 +421,6 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         // Retrieves, but does not remove, the first element of this deque, or returns null if this deque is empty.
         if (isEmpty()) return null;
 
-        Node<T> node = head;
-
         return head.data;
     }
 
@@ -449,9 +429,7 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         //Retrieves, but does not remove, the last element of this deque, or returns null if this deque is empty.
         if (isEmpty()) return null;
 
-        Node<T> node = tail;
-
-        return node.data;
+        return tail.data;
     }
 
     @Override
@@ -469,15 +447,17 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         //Retrieves and removes the first element of this deque, or returns null if this deque is empty.
         if (isEmpty()) return null;
 
-        Node<T> nextNode = head.next;
-        Node<T> oldHead = head;
+        return deleteFirstNode();
+    }
 
-        head = null;
+    private T deleteFirstNode() {
+        Node<T> nextNode = head.next;
+        T data = head.data;
+
         head = nextNode;
 
         size--;
-
-        return oldHead.data;
+        return data;
     }
 
     @Override
@@ -485,14 +465,16 @@ public class MyLinkedList<T> implements MyList<T>, MyDeque<T> {
         //Retrieves and removes the last element of this deque, or returns null if this deque is empty.
         if (isEmpty()) return null;
 
+        return deleteLastNode();
+    }
+
+    private T deleteLastNode() {
         Node<T> prevNode = tail.prev;
-        Node<T> oldTail = tail;
-        tail = null;
+        T data = tail.data;
         tail = prevNode;
 
         size--;
-
-        return oldTail.data;
+        return data;
     }
 
     @Override
