@@ -1,9 +1,11 @@
 package week2.task5_7Equals_Comparable;
 
+import java.util.Arrays;
+
 /**
  * Created by SmooZzzie on 24.04.2017.
  */
-public class University {
+public class University implements Cloneable {
 
     private static final int DEFAULT_GROUPS_QUANTITY = 10;
 
@@ -38,6 +40,10 @@ public class University {
         this.actualGroupQuantity = actualGroupQuantity;
     }
 
+    public void setUniversityName(String universityName) {
+        this.universityName = universityName;
+    }
+
     public boolean addGroup(Group newGroup) {
 
         if (newGroup == null || contains(newGroup) || actualGroupQuantity >= listOfGroups.length) {
@@ -60,4 +66,31 @@ public class University {
         return false;
     }
 
+    //added for week4 CloneTask
+    @Override
+    protected University clone() throws CloneNotSupportedException {
+        University clone = (University) super.clone();
+
+        clone.listOfGroups = cloneListOfGroups(listOfGroups);
+        return clone;
+    }
+
+    private Group[] cloneListOfGroups(Group[] listOfGroups) throws CloneNotSupportedException {
+
+        Group[] clone = this.listOfGroups.clone();
+
+        for (int i = 0; i < listOfGroups.length; i++) {
+            clone[i] = clone[i].cloneGroup(clone[i]);
+        }
+
+        return clone;
+    }
+
+    @Override
+    public String toString() {
+        return "University{" +
+                "universityName='" + universityName + '\'' +
+                ", listOfGroups=" + Arrays.toString(listOfGroups) +
+                '}';
+    }
 }
