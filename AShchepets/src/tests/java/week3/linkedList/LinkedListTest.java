@@ -11,8 +11,10 @@ import org.junit.Test;
 public class LinkedListTest {
 
     MyLinkedList testLinkedList;
+    MyLinkedList testLinkedListRestricted;
+    MyLinkedList testLinkedListEmpty;
 
-   Object testNode1;
+    Object testNode1;
     Object testNode2;
     Object testNode3;
     Object testNode4;
@@ -23,13 +25,21 @@ public class LinkedListTest {
 
         testNode1 = "String";
         testNode2 = 5;
-        testNode3 =true;
+        testNode3 = true;
         testNode4 = null;
         testNode5 = 33.55;
 
         Object[] testArray = {testNode1, testNode2, testNode3, testNode4, testNode5};
 
         testLinkedList = new MyLinkedList(testArray);
+        testLinkedListRestricted = new MyLinkedList(5);
+        testLinkedListEmpty = new MyLinkedList();
+
+        testLinkedListRestricted.add(testNode1);
+        testLinkedListRestricted.add(testNode2);
+        testLinkedListRestricted.add(testNode3);
+        testLinkedListRestricted.add(testNode4);
+        testLinkedListRestricted.add(testNode5);
 
     }
 
@@ -45,7 +55,7 @@ public class LinkedListTest {
         int expected = 5;
         int actual = testLinkedList.size();
 
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -95,7 +105,7 @@ public class LinkedListTest {
 
         Object expected = 5;
 
-        Assert.assertEquals(testLinkedList.set(1,"TestSetting"), expected);
+        Assert.assertEquals(testLinkedList.set(1, "TestSetting"), expected);
     }
 
     @Test
@@ -106,9 +116,29 @@ public class LinkedListTest {
         testLinkedList.clear();
         int actual = testLinkedList.size();
 
-        Assert.assertEquals(expectedSize,actual);
+        Assert.assertEquals(expectedSize, actual);
     }
 
+
+    @Test
+    public void test_remove_null() {
+        int expected_size = 4;
+        testLinkedList.remove(null);
+        int actual_size = testLinkedList.size();
+        Assert.assertEquals(expected_size, actual_size);
+    }
+
+    @Test
+    public void test_contains_null() {
+        boolean expected = true;
+        boolean actual = testLinkedList.contains(null);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    /***************TESTS FOR DEQUE********************/
+
+    // testing add() methods
     @Test
     public void test_add_first() {
 
@@ -118,7 +148,7 @@ public class LinkedListTest {
         int expectedSize = 6;
         int actualSize = testLinkedList.size();
 
-        Assert.assertEquals(expectedSize,actualSize);
+        Assert.assertEquals(expectedSize, actualSize);
     }
 
     @Test
@@ -130,9 +160,10 @@ public class LinkedListTest {
         int expectedSize = 6;
         int actualSize = testLinkedList.size();
 
-        Assert.assertEquals(expectedSize,actualSize);
+        Assert.assertEquals(expectedSize, actualSize);
     }
 
+    // testing remove() methods
     @Test
     public void test_remove_first() {
 
@@ -141,7 +172,7 @@ public class LinkedListTest {
         int expectedSize = 4;
         int actualSize = testLinkedList.size();
 
-        Assert.assertEquals(expectedSize,actualSize);
+        Assert.assertEquals(expectedSize, actualSize);
     }
 
     @Test
@@ -152,23 +183,107 @@ public class LinkedListTest {
         int expectedSize = 4;
         int actualSize = testLinkedList.size();
 
-        Assert.assertEquals(expectedSize,actualSize);
+        Assert.assertEquals(expectedSize, actualSize);
+    }
+
+    //testing get() methods (element() equals to getFirst())
+    @Test
+    public void test_element() {
+
+        Object actual = testLinkedList.element();
+        Object expected = testLinkedList.get(0);
+
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void test_remove_null() {
-        int expected_size = 4;
-        testLinkedList.remove(null);
-        int actual_size = testLinkedList.size();
-        Assert.assertEquals(expected_size,actual_size);
+    public void test_get_first() {
+        Object actual = testLinkedList.getFirst();
+        Object expected = testLinkedList.get(0);
+
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void test_contains_null() {
-        boolean expected = true;
-        boolean actual = testLinkedList.contains(null);
+    public void test_get_last() {
+        Object expected = testLinkedList.get(4);
+        Object actual = testLinkedList.getLast();
 
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+    // testing offer() methods
+    @Test
+    public void test_offer() {
+
+        Assert.assertTrue(testLinkedList.offer(19));
+    }
+
+    @Test
+    public void test_offer_restricted() {
+        Assert.assertFalse(testLinkedListRestricted.offer(19));
+    }
+
+    @Test
+    public void test_offer_first_empty() {
+        Assert.assertFalse(testLinkedListRestricted.offerFirst(testNode5));
+    }
+
+    // testing peek() methods
+    @Test
+    public void test_peek_empty() {
+        Object expected = null;
+        Object actual = testLinkedListEmpty.peek();
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test_peek() {
+        Object expected = testLinkedList.get(0);
+        Object actual = testLinkedList.peek();
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test_peek_last_empty() {
+        Assert.assertEquals(testLinkedListEmpty.peekLast(), null);
+    }
+
+    @Test
+    public void test_peek_last() {
+        Assert.assertEquals(testNode5, testLinkedList.peekLast());
+    }
+
+    //testing poll() methods
+    @Test
+    public void test_poll_empty() {
+        Object expected = null;
+        Object actual = testLinkedListEmpty.poll();
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test_poll() {
+        Object expected = testLinkedList.get(0);
+        Object actual = testLinkedList.poll();
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test_poll_last_empty() {
+        Assert.assertEquals(testLinkedListEmpty.pollLast(), null);
+    }
+
+    @Test
+    public void test_poll_last() {
+        Object expected = testLinkedList.get(4);
+        Object actual = testLinkedList.pollLast();
+
+        Assert.assertEquals(actual, expected);
     }
 
 
