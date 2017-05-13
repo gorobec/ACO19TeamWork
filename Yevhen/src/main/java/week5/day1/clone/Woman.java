@@ -5,7 +5,7 @@ package week5.day1.clone;
  * @since JDK 1.8
  */
 public class Woman extends Person{
-    private Child child;
+    private transient Child child;
 
     public Woman(String name, int age, Child child) {
         super(name, age);

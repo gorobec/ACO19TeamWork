@@ -13,6 +13,9 @@ public class UserConsoleController {
     private ConsoleView view;
     private UserDao dao;
 
+    public UserConsoleController() {
+    }
+
     public UserConsoleController(ConsoleView view, UserDao dao) {
         this.view = view;
         this.dao = dao;

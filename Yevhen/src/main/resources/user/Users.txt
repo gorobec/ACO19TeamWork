@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Yevhen",
+    "surname": "Vorobiei",
+    "age": 28,
+    "phoneNumber": "22222"
+  }
+]
