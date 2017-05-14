@@ -1,8 +1,13 @@
 package design_patterns.dao_mvc.controller;
 
 import design_patterns.dao_mvc.dao.UserDao;
+import design_patterns.dao_mvc.exceptions.AgeValidationException;
+import design_patterns.dao_mvc.exceptions.NameValidationException;
+import design_patterns.dao_mvc.exceptions.PhoneValidationException;
 import design_patterns.dao_mvc.model.User;
 import design_patterns.dao_mvc.view.ConsoleView;
+
+import javax.xml.bind.ValidationException;
 
 /**
  * @author Yevhen Vorobiei
@@ -13,8 +18,8 @@ public class UserConsoleController {
     private ConsoleView view;
     private UserDao dao;
 
-    public UserConsoleController() {
-    }
+    /*public UserConsoleController() {
+    }*/
 
     public UserConsoleController(ConsoleView view, UserDao dao) {
         this.view = view;
@@ -55,7 +60,12 @@ public class UserConsoleController {
         int age = Integer.parseInt(view.enterAge());
         String phoneNumber = view.enterPhone();
 
-        return new User(name, surname, age, phoneNumber);
+        try {
+            return new User(name, surname, age, phoneNumber);
+        } catch (ValidationException e) {
+            view.exceptionMessenger(e);
+            return getUser();
+        }
     }
 
 }

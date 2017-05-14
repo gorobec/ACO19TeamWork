@@ -1,5 +1,8 @@
 package design_patterns.dao_mvc.view;
 
+import design_patterns.dao_mvc.exceptions.NameValidationException;
+
+import javax.xml.bind.ValidationException;
 import java.util.Scanner;
 
 /**
@@ -49,5 +52,9 @@ public class ConsoleView {
 
     public void unsuccessfulRemoveOperation() {
         System.out.println("User was not removed");
+    }
+
+    public void exceptionMessenger(ValidationException e) {
+        System.out.printf("Something go wrong - %s\n", e.getMessage());
     }
 }

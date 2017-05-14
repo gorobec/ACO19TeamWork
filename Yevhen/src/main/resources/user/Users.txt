@@ -4,5 +4,11 @@
     "surname": "Vorobiei",
     "age": 28,
     "phoneNumber": "22222"
+  },
+  {
+    "name": "Yevhen",
+    "surname": "Vorobiei",
+    "age": 29,
+    "phoneNumber": "1234567890"
   }
 ]

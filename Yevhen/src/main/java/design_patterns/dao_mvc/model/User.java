@@ -1,5 +1,12 @@
 package design_patterns.dao_mvc.model;
 
+import design_patterns.dao_mvc.exceptions.AgeValidationException;
+import design_patterns.dao_mvc.exceptions.NameValidationException;
+import design_patterns.dao_mvc.exceptions.PhoneValidationException;
+import design_patterns.dao_mvc.utils.Validation;
+
+import static design_patterns.dao_mvc.utils.Validation.*;
+
 /**
  * @author Yevhen Vorobiei
  * @since JDK 1.8
@@ -13,10 +20,14 @@ public class User {
     public User() {
     }
 
-    public User(String name, String surname, int age, String phoneNumber) {
+    public User(String name, String surname, int age, String phoneNumber) throws NameValidationException, AgeValidationException, PhoneValidationException {
+        validateNameSurname(name);
         this.name = name;
+        validateNameSurname(surname);
         this.surname = surname;
+       validateAge(age);
         this.age = age;
+        validatePhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
     }
 
