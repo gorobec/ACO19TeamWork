@@ -1,5 +1,8 @@
 package week5.console;
 
+import week5.console.exceptions.MyConsoleInputWrongException;
+import week5.console.model.MyConsole;
+
 import java.util.Scanner;
 
 /**
@@ -13,6 +16,12 @@ public class Run {
         Scanner scanner = new Scanner(System.in);
         String choice = scanner.nextLine();
 
-        console.readTheCommand();
+        String[] splitChoice = choice.split(" ");
+        try {
+            console.readTheCommand(splitChoice);
+        } catch (MyConsoleInputWrongException e) {
+            e.getMessage();
+            
+        }
     }
 }
