@@ -1,27 +1,21 @@
 package week5.console;
 
-import week5.console.exceptions.MyConsoleInputWrongException;
+import week5.console.controller.ConsoleControllerImpIConsole;
 import week5.console.model.MyConsole;
+import week5.console.view.ConsoleView;
 
-import java.util.Scanner;
+import java.io.IOException;
 
 /**
  * Created by SmooZzzie on 17.05.2017.
  */
 public class Run {
 
-    public static void main(String[] args) {
-        MyConsole console = new MyConsole();
+    public static void main(String[] args) throws IOException {
 
-        Scanner scanner = new Scanner(System.in);
-        String choice = scanner.nextLine();
+        ConsoleView consoleView = new ConsoleView();
+        ConsoleControllerImpIConsole consoleController = new ConsoleControllerImpIConsole(consoleView,new MyConsole());
 
-        String[] splitChoice = choice.split(" ");
-        try {
-            console.readTheCommand(splitChoice);
-        } catch (MyConsoleInputWrongException e) {
-            e.getMessage();
-            
-        }
+        consoleController.startWorking();
     }
 }

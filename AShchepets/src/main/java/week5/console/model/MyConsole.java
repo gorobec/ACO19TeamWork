@@ -11,7 +11,7 @@ public class MyConsole  {
 
     private File currDir;
 
-    MyConsole() {
+    public MyConsole() {
         currDir = new File(DEFAULT_PATH);
     }
 
