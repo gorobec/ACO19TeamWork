@@ -30,7 +30,7 @@ public class ConsoleView {
 
     public String waitingForNextCommand(File currDir) {
 
-        System.out.print(new StringBuilder(currDir.getAbsolutePath()).append(">"));
+        System.out.print(new StringBuilder("\033[30;01m").append(currDir.getAbsolutePath()).append(">"));
 
         return scanner.nextLine();
     }
@@ -52,7 +52,7 @@ public class ConsoleView {
     }
 
     public String viewList(String[] list) {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("\033[32;01m");
 
         for (String s : list) {
             stringBuilder.append("\n-").append(s);
@@ -61,8 +61,8 @@ public class ConsoleView {
         return stringBuilder.toString();
     }
 
-    public void mkDirResult(String s) {
-        System.out.println("The directory was " + s + "created!");
+    public void mkDirWrongResult() {
+        System.out.println("Error. The directory wasn't created.");
     }
 
     public String viewHelp() {
@@ -80,5 +80,42 @@ public class ConsoleView {
 
     public void noSuchFileInDir() {
         System.out.println("There is no such file in directory!");
+    }
+
+    public String pvmOutput(File currDir) {
+        return "\033[32;01m" + currDir.getAbsolutePath();
+    }
+
+    public void printDirectoryTree(File currDir, int indent, StringBuilder sb) {
+        sb.append(getIndentString(indent));
+        sb.append("+--");
+        sb.append(currDir.getName());
+        sb.append("/");
+        sb.append("\n");
+        if (currDir.list() != null) {
+            for (File file : currDir.listFiles()) {
+                if (file.isDirectory()) {
+                    printDirectoryTree(file, indent + 1, sb);
+                } else {
+                    printFile(file, indent + 1, sb);
+                }
+            }
+        }
+    }
+
+    public String getIndentString(int indent) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < indent; i++) {
+            sb.append("|  ");
+        }
+        return sb.toString();
+    }
+
+
+    private void printFile(File file, int indent, StringBuilder sb) {
+        sb.append(getIndentString(indent));
+        sb.append("+--");
+        sb.append(file.getName());
+        sb.append("\n");
     }
 }

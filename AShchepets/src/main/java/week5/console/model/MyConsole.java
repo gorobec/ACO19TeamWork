@@ -5,9 +5,9 @@ import java.io.File;
 /**
  * Created by SmooZzzie on 17.05.2017.
  */
-public class MyConsole  {
+public class MyConsole {
 
-    private final static String DEFAULT_PATH = "C:\\Users\\SmooZzzie\\";
+    private final static String DEFAULT_PATH = "C:\\Users\\SmooZzzie";
 
     private File currDir;
 

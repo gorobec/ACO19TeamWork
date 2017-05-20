@@ -83,7 +83,7 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
                     userCommand = consoleView.waitingForNextCommand(console.getCurrDir());
                     break;
                 case "tree":
-                    tree();
+                    System.out.println(tree());
                     userCommand = consoleView.waitingForNextCommand(console.getCurrDir());
                     break;
                 case "help":
@@ -109,7 +109,7 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
 
     @Override
     public String pvm() {
-        return console.getCurrDir().getAbsolutePath();
+        return consoleView.pvmOutput(console.getCurrDir());
     }
 
     @Override
@@ -130,18 +130,15 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
         if (!checkArguments(argumentsAfterCommand, 1)) return;
 
 
-        String directoryToChange = argumentsAfterCommand[0];
+        File directoryToChange = new File(console.getCurrDir().getAbsolutePath() + "\\" + argumentsAfterCommand[0]);
         String parentPath = console.getCurrDir().getParent();
         String[] listOfChildren = console.getCurrDir().list();
 
         if (directoryToChange != null && containsDir(listOfChildren, directoryToChange)) {
-            File newCurrDir = new File(directoryToChange);
+            File newCurrDir = new File(directoryToChange.getAbsolutePath());
             console.setCurrDir(newCurrDir);
         } else {
-            switch (directoryToChange) {
-                case "/":
-                    console.setCurrDir(new File(console.getDefaultPath()));
-                    break;
+            switch (directoryToChange.getName()) {
                 case "..":
                     if (parentPath == null) {
                         consoleView.noSuchDirectory();
@@ -168,20 +165,19 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
         return true;
     }
 
-    private boolean containsDir(String[] listOfChildren, String directoryToFind) {
+    private boolean containsDir(String[] listOfChildren, File directoryToFind) {
 
         String list[] = listOfChildren;
-        String directory = directoryToFind;
-
-        File file = new File(directory);
+        File directory = directoryToFind;
 
         boolean result = false;
 
-        if (file.isFile()) return result;
-
-        for (int i = 0; i < list.length; i++) {
-            if (directory.equals(list[i])) result = true;
+        if (directory.isDirectory()) {
+            for (int i = 0; i < list.length; i++) {
+                if (directory.getName().equals(list[i])) result = true;
+            }
         }
+
         return result;
     }
 
@@ -195,8 +191,7 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
 
         File newDir = new File(directoryToCreate);
 
-        if (newDir.mkdir()) consoleView.mkDirResult("");
-        else consoleView.mkDirResult("not");
+        if (!newDir.mkdir()) consoleView.mkDirWrongResult();
     }
 
     @Override
@@ -209,12 +204,19 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
 
         for (int i = 0; i < argumentsAfterCommand.length; i++) {
             File newFile = new File(curDir.getAbsolutePath() + "\\" + nextValues[i]);
+
+            try {
+                newFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
     @Override
     public void cp(String[] nextValues) {
+
         String[] argumentsAfterCommand = nextValues;
         if (!checkArguments(argumentsAfterCommand, 2)) return;
 
@@ -223,21 +225,23 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
 
         File currDir = new File(console.getCurrDir().getAbsolutePath());
 
+        File source = new File(currDir.getAbsolutePath() + "\\" + copyingFileName);
+
         if (checkOnFilesAndSameExtension(copyingFileName, secondArgument)) {
-            Path source = Paths.get(currDir.getAbsolutePath() + "\\" + copyingFileName);
-            Path destination = Paths.get(currDir.getParent() + "\\" + secondArgument);
+
+            Path destination = Paths.get(currDir.getAbsolutePath() + "\\" + secondArgument);
 
             try {
-                Files.copy(source, destination);
+                Files.copy(source.toPath(), destination);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (checkOnDirToCopy(copyingFileName, secondArgument)) {
-            Path source = Paths.get(currDir.getAbsolutePath() + "\\" + copyingFileName);
-            Path destination = Paths.get(secondArgument);
+        } else if (checkOnDirToCopy(source, secondArgument)) {
+
+            Path destination = Paths.get(secondArgument + "\\" + copyingFileName);
 
             try {
-                Files.copy(source, destination);
+                Files.copy(source.toPath(), destination);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -246,12 +250,12 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
         }
     }
 
-    private boolean checkOnDirToCopy(String copyingFileName, String secondArgument) {
+    private boolean checkOnDirToCopy(File path, String secondArgument) {
 
-        File newFile = new File(console.getCurrDir().getAbsolutePath() + "\\" + copyingFileName);
+        File file = new File(path.getAbsolutePath());
         File secondArgumentLikeDir = new File(secondArgument);
 
-        if (newFile.exists() && newFile.isFile()) {
+        if (file.exists() && file.isFile()) {
             if (secondArgumentLikeDir.exists() && secondArgumentLikeDir.isDirectory()) {
                 return true;
             }
@@ -265,8 +269,8 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
         File newFile = new File(console.getCurrDir().getAbsolutePath() + "\\" + copyingFileName);
         File secondFile = new File(console.getCurrDir().getAbsolutePath() + "\\" + secondArgument);
 
-        if (newFile.exists() && secondFile.exists()) {
-            if (newFile.isFile() && secondFile.isFile()) {
+        if (newFile.exists()) {
+            if (newFile.isFile()) {
 
                 String firstFileExt = newFile.getName().substring(
                         newFile.getName().lastIndexOf("."), newFile.getName().length());
@@ -290,44 +294,88 @@ public class ConsoleControllerImpIConsole implements IConsoleController {
         if (!checkArguments(argumentsAfterCommand, 2)) return;
 
         File fileToMove = new File(console.getCurrDir().getAbsolutePath() + "\\" + argumentsAfterCommand[0]);
+
         File directoryToMove = new File(argumentsAfterCommand[1]);
         String directoryPathToMove = argumentsAfterCommand[1];
+
         String parentPath = console.getCurrDir().getParent();
 
+        Path sourcePath = Paths.get(console.getCurrDir().getAbsolutePath() + "\\" + fileToMove.getName());
+        Path destinyPath;
+
         if (fileToMove.exists() && fileToMove.isFile()) {
+            switch (directoryPathToMove) {
+                case "..":
+
+                    if (parentPath == null) {
+                        consoleView.noSuchDirectory();
+                        return;
+                    }
+
+                    destinyPath = Paths.get(console.getCurrDir().getParent() + "\\" + fileToMove.getName());
+
+                    try {
+                        Files.move(sourcePath, destinyPath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                case ".":
+                    destinyPath = Paths.get(console.getCurrDir().getAbsolutePath() + "\\" + fileToMove.getName());
+
+                    try {
+                        Files.move(sourcePath, destinyPath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+            }
             if (directoryToMove.exists() && directoryToMove.isDirectory()) {
 
-            } else {
-                switch (directoryPathToMove) {
-                    case "/":
-                        console.setCurrDir(new File(console.getDefaultPath()));
-                        break;
-                    case "..":
-                        if (parentPath == null) {
-                            consoleView.noSuchDirectory();
-                            return;
-                        }
-                        console.setCurrDir(new File(parentPath));
-                        break;
-                    case ".":
-                        break;
-                    default:
-                        consoleView.wrongInputMv();
-                        break;
-                }
-            }
-        } else consoleView.noSuchFileInDir();
+                destinyPath = Paths.get(directoryPathToMove + "\\" + fileToMove.getName());
 
+                try {
+                    Files.move(sourcePath, destinyPath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else consoleView.wrongInputMv();
+        } else consoleView.noSuchFileInDir();
     }
+
 
     @Override
     public void rm(String[] nextValues) {
 
+        String[] argumentsAfterCommand = nextValues;
+
+        if (!checkArguments(argumentsAfterCommand, 1)) return;
+
+        File fileToRemove = new File(console.getCurrDir().getAbsolutePath() + "\\" + argumentsAfterCommand[0]);
+
+        if (fileToRemove.exists() && fileToRemove.isFile()) {
+
+            try {
+                Files.delete(fileToRemove.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else consoleView.noSuchFileInDir();
     }
 
     @Override
     public String tree() {
-        return null;
+
+        File currDir = new File(console.getCurrDir().getAbsolutePath());
+        if (!currDir.isDirectory()) {
+            throw new IllegalArgumentException(" is not a Directory");
+        }
+        int indent = 0;
+        StringBuilder sb = new StringBuilder();
+        consoleView.printDirectoryTree(currDir, indent, sb);
+        return sb.toString();
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Run {
     public static void main(String[] args) throws IOException {
 
         ConsoleView consoleView = new ConsoleView();
-        ConsoleControllerImpIConsole consoleController = new ConsoleControllerImpIConsole(consoleView,new MyConsole());
+        ConsoleControllerImpIConsole consoleController = new ConsoleControllerImpIConsole(consoleView, new MyConsole());
 
         consoleController.startWorking();
     }
