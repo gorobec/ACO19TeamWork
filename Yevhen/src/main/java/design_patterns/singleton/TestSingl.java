@@ -8,20 +8,20 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class TestSingl {
     public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, InstantiationException {
-        Singleton singleton = Singleton.getInstance();
-        Singleton singleton2 = Singleton.getInstance();
+        EagerInitializationSingleton eagerInitializationSingleton = EagerInitializationSingleton.getInstance();
+        EagerInitializationSingleton eagerInitializationSingleton2 = EagerInitializationSingleton.getInstance();
 
 
 
-        for (Constructor constructor : Singleton.class.getDeclaredConstructors()){
+        for (Constructor constructor : EagerInitializationSingleton.class.getDeclaredConstructors()){
             constructor.setAccessible(true);
-            Singleton singleton1 = (Singleton) constructor.newInstance();
-            System.out.println(singleton1.hashCode());
+            EagerInitializationSingleton eagerInitializationSingleton1 = (EagerInitializationSingleton) constructor.newInstance();
+            System.out.println(eagerInitializationSingleton1.hashCode());
 
         }
 
-        System.out.println(singleton.hashCode());
-        System.out.println(singleton2.hashCode());
+        System.out.println(eagerInitializationSingleton.hashCode());
+        System.out.println(eagerInitializationSingleton2.hashCode());
 
 
     }

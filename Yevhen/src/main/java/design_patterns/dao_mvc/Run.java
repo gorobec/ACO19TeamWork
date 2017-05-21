@@ -1,6 +1,7 @@
 package design_patterns.dao_mvc;
 
 import design_patterns.dao_mvc.controller.UserConsoleController;
+import design_patterns.dao_mvc.dao.DaoFactory;
 import design_patterns.dao_mvc.dao.StaticUserDaoImpl;
 import design_patterns.dao_mvc.dao.UserDao;
 import design_patterns.dao_mvc.dao.UserJsonDao;
@@ -13,8 +14,7 @@ import design_patterns.dao_mvc.view.ConsoleView;
 public class Run {
     public static void main(String[] args) {
         ConsoleView view = new ConsoleView();
-//        UserDao dao = new StaticUserDaoImpl();
-        UserDao dao = new UserJsonDao();
+        UserDao dao = DaoFactory.getInstance("json");
         UserConsoleController controller = new UserConsoleController(view, dao);
 
         controller.addUser();

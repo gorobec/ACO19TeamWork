@@ -15,6 +15,7 @@ import javax.xml.bind.ValidationException;
  */
 public class UserConsoleController {
 
+
     private ConsoleView view;
     private UserDao dao;
 

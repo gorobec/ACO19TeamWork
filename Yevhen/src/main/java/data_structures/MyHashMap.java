@@ -1,7 +1,5 @@
 package data_structures;
 
-import java.util.Map;
-
 /**
  * Created by gorobec on 20.05.17.
  */
