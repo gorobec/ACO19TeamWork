@@ -68,6 +68,7 @@ public abstract class Edition implements Comparable<Edition> {
         editionReaders.add(reader);
         Collections.sort(editionReaders);
 
+
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package week2.library_task;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +19,15 @@ public class Library {
     boolean containsSimilar = false; // supporting variable,
     // using in showEditionsByAuthor() and ShowEditionsByYear()
 
+
+
+
+    public Library() {
+    }
+
+    public Library libraryDeserializedUpload(File file) {
+        return LibraryUtils.deserializeLibraryFromFile(file);
+    }
 
     public List<Reader> getReadersList() {
         return readersList;
@@ -67,6 +77,8 @@ public class Library {
 
             readersList.add(newReader);
             Collections.sort(readersList);
+            LibraryUtils.serializeLibraryInFile(this);
+
             return true;
 
     }
@@ -76,6 +88,8 @@ public class Library {
 
             editionsList.add(newEdition);
             Collections.sort(editionsList);
+            LibraryUtils.serializeLibraryInFile(this);
+
             return true;
 
     }
@@ -88,6 +102,7 @@ public class Library {
 
         Reader readerInList = readersList.get(readersList.indexOf(reader));
         Edition editionInList = editionsList.get(editionsList.indexOf(edition));
+        LibraryUtils.serializeLibraryInFile(this);
 
         return readerInList.addEdition(editionInList);
     }
@@ -145,6 +160,8 @@ public class Library {
             return false;
 
         reader.setBanned(true);
+        LibraryUtils.serializeLibraryInFile(this);
+
         return true;
     }
 
@@ -239,5 +256,6 @@ public class Library {
         }
 
     }
+
 
 }
