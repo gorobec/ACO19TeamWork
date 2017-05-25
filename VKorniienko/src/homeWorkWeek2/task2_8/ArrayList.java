@@ -55,12 +55,13 @@ public class ArrayList {
         return false;
     }
 
-    public boolean remove(int index) {
+    public Object remove(int index) {
+        if (index >= size || index < 0) return null;
         int numMover = size - index - 1;
         System.arraycopy(elementData, index + 1, elementData, index, numMover);
         elementData[size - 1] = null;
         size--;
-        return true;
+        return false;
     }
 
     public int size() {
@@ -78,18 +79,11 @@ public class ArrayList {
         return elementData[index];
     }
 
-    public boolean set(int index, Object o) {
-        if (elementData[index] != null) {
-            System.out.println("Index is busy");
-            return false;
-        }
-        if (elementData[index] == null) {
-            if (size >= index) {
-                elementData[index] = o;
-                return true;
-            }
-        }
-        return false;
+    public Object set(int index, Object o) {
+        if (index >= size || index < 0) return null;
+        Object previousElement = elementData[index];
+        elementData[index] = o;
+        return previousElement;
     }
 
     public boolean contains(Object o) {
