@@ -7,16 +7,12 @@ import java.io.File;
  */
 public class MyConsole {
 
-    private final static String DEFAULT_PATH = "C:\\Users\\SmooZzzie";
+    private final static String DEFAULT_PATH = ".";
 
     private File currDir;
 
     public MyConsole() {
         currDir = new File(DEFAULT_PATH);
-    }
-
-    public static String getDefaultPath() {
-        return DEFAULT_PATH;
     }
 
     public File getCurrDir() {

@@ -67,11 +67,8 @@ public class ConsoleView {
 
     public String viewHelp() {
         // there should be a reference, but i'm laziest guy all over the world
-        StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("I'm so lazy to write it, so... ");
-
-        return stringBuilder.toString();
+        return "I'm so lazy to write it, so... ";
     }
 
     public void wrongInputMv() {
@@ -92,7 +89,7 @@ public class ConsoleView {
         sb.append(currDir.getName());
         sb.append("/");
         sb.append("\n");
-        if (currDir.list() != null) {
+        if (currDir.list() != null ) {
             for (File file : currDir.listFiles()) {
                 if (file.isDirectory()) {
                     printDirectoryTree(file, indent + 1, sb);
@@ -103,7 +100,7 @@ public class ConsoleView {
         }
     }
 
-    public String getIndentString(int indent) {
+    private String getIndentString(int indent) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < indent; i++) {
             sb.append("|  ");
